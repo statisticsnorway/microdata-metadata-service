@@ -13,9 +13,9 @@ pool:
 
 variables:
   GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
-  imageName: 'eu.gcr.io/prod-bip/ssb/microdata/test-datastore'
+  imageName: 'eu.gcr.io/prod-bip/ssb/microdata/metadata-service'
   imageTagBeforeVulnerabilityScan: $(Build.SourceBranchName)-$(fullSha)
-  repoName: 'prod-bip/ssb/microdata/test-datastore'
+  repoName: 'prod-bip/ssb/microdata/metadata-service'
   latestTag: 'bipLatest'
   isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]  
 
