@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
 ---
 datastore:
   root: src/test/resources/no_ssb_test_datastore
@@ -11,6 +11,12 @@ datastore:
     metadata-all: ${datastore.metadata.dir}/metadata-all-test__1_0_0.json
   dataset:
     dir: ${datastore.root}/dataset
+---
+dataservice:
+  url:
+    status: http://127.0.0.1:8000/data/status
+    event: http://127.0.0.1:8000/data/event
+    fixed: http://127.0.0.1:8000/data/fixed
 ---
 info:
   version: @APPLICATION_VERSION@

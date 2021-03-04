@@ -87,8 +87,8 @@ public class DataAPITest {
         List populationFilter = List.of(1, 2, 2, 3, 4);
         Map expectedEvent = DataAPITestFixture.datastructureFnr();
 
-        LocalDate startDate = LocalDate.parse("2009-12-01");
-        LocalDate endDate = LocalDate.parse("2012-08-31");
+        long startDate = 1345;
+        long endDate = 2456;
 
         Set<String> valueFilter = Stream.of("1","2","45","3","4").collect(Collectors.toCollection(HashSet::new));
 
@@ -96,8 +96,8 @@ public class DataAPITest {
                 new HashMap() {{
                     put("version", DATASTORE_VERSION);
                     put("dataStructureName", "FNR");
-                    put("startDate", startDate.toEpochDay());
-                    put("stopDate", endDate.toEpochDay());
+                    put("startDate", startDate); //.toEpochDay());
+                    put("stopDate", endDate); //.toEpochDay());
                     put("values", valueFilter);
                     put("population", Map.of("unitIds", populationFilter));
                     put("intervalFilter",  "[0, 999]");

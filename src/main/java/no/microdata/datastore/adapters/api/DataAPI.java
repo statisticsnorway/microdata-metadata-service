@@ -90,8 +90,8 @@ class DataAPI {
             EventQuery eventQuery = new EventQuery(
                     new HashMap() {{
                             put("datasetRevision", datasetRevision);
-                            put("startDate", LocalDate.ofEpochDay(startDate));
-                            put("endDate", LocalDate.ofEpochDay(stopDate));
+                            put("startDate", startDate);
+                            put("endDate", stopDate);
                             put("requestId", finalRequestId);
                             put("valueFilter", createValueFilter(inputTimePeriodQuery));
                             put("unitIdFilter",  createUnitIdFilter(inputTimePeriodQuery));

@@ -10,7 +10,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 
 @SpringBootApplication
-public class DatastoreApplication {
+public class MetadataServiceApplication {
 
 	@Bean
 	HttpMessageConverter messagePackMessageConverter() {
@@ -21,7 +21,7 @@ public class DatastoreApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(DatastoreApplication.class, args);
+		SpringApplication.run(MetadataServiceApplication.class, args);
 	}
 
 }
