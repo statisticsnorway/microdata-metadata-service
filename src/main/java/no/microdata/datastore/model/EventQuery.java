@@ -6,8 +6,8 @@ import java.util.StringJoiner;
 
 public class EventQuery {
 
-    LocalDate startDate;
-    LocalDate endDate;
+    long startDate;
+    long endDate;
     String requestId;
     DatasetRevision datasetRevision;
     UnitIdFilter unitIdFilter;
@@ -15,7 +15,7 @@ public class EventQuery {
     ValueFilter valueFilter;
     Boolean includeAttributes;
 
-    EventQuery(LocalDate startDate){
+    EventQuery(long startDate){
         this.startDate = startDate;
     }
 
@@ -23,8 +23,8 @@ public class EventQuery {
 
         if(!hasRequiredFields(
                 (DatasetRevision)inputFields.get("datasetRevision"),
-                (LocalDate)inputFields.get("startDate"),
-                (LocalDate)inputFields.get("endDate"))) {
+                (long)inputFields.get("startDate"),
+                (long)inputFields.get("endDate"))) {
             throw new AssertionError(
                     String.format(
                             "Missing required field. Fields datasetRevision = %s, startDate = %s and endDate = %s",
@@ -32,8 +32,8 @@ public class EventQuery {
         }
 
         datasetRevision = (DatasetRevision)inputFields.get("datasetRevision");
-        startDate = (LocalDate)inputFields.get("startDate");
-        endDate = (LocalDate)inputFields.get("endDate");
+        startDate = (long)inputFields.get("startDate");
+        endDate = (long)inputFields.get("endDate");
         requestId = (String)inputFields.get("requestId");
         intervalFilter = (IntervalFilter)inputFields.getOrDefault("intervalFilter", IntervalFilter.fullIntervalInstance());
         unitIdFilter = (UnitIdFilter)inputFields.getOrDefault("unitIdFilter", UnitIdFilter.noFilterInstance());
@@ -41,7 +41,7 @@ public class EventQuery {
         includeAttributes = (Boolean)inputFields.getOrDefault("includeAttributes", false);
     }
 
-    private boolean hasRequiredFields(DatasetRevision datasetRevision, LocalDate startDate, LocalDate endDate) {
+    private boolean hasRequiredFields(DatasetRevision datasetRevision, Long startDate, Long endDate) {
         return datasetRevision != null && startDate != null && endDate != null;
     }
 
@@ -61,11 +61,11 @@ public class EventQuery {
         return includeAttributes;
     }
 
-    public LocalDate getStartDate() {
+    public long getStartDate() {
         return startDate;
     }
 
-    public LocalDate getEndDate() {
+    public long getEndDate() {
         return endDate;
     }
 

@@ -1,45 +1,38 @@
 package no.microdata.datastore.transformations;
 
-import no.microdata.datastore.model.Datatype;
-import no.microdata.datastore.model.SplitDatums;
+import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class DataMappingFunctions {
 
-    public static Map addDatumsToDataStructure(Map dataStructure, SplitDatums datums, Boolean includeAttributes){
+    public static Map addDatumsToDataStructure(Map dataStructure, Map<String, String> resultIdentifier, Boolean includeAttributes){
         if(dataStructure == null)
             throw new IllegalArgumentException("DataStructure argument can't be null.");
-        if(datums == null)
-            throw new IllegalArgumentException("SplitDatums argument can't be null");
+        if(ObjectUtils.isEmpty(resultIdentifier))
+            throw new IllegalArgumentException("ResultIdentifier argument can't be null");
 
-        dataStructure = addMeasureDatumsToDataStructure(dataStructure, datums);
-        dataStructure = addIdentifierDatumsToDataStructure(dataStructure, datums);
+        String dataUrl = resultIdentifier.get("dataUrl");
+
+        dataStructure = addMeasureDatumsToDataStructure(dataStructure, dataUrl);
+        dataStructure = addIdentifierDatumsToDataStructure(dataStructure, dataUrl);
 
         if (includeAttributes != null && includeAttributes){
-            dataStructure = addStartTimeDatumsToDataStructure(dataStructure, datums);
-            dataStructure = addEndTimeDatumsToDataStructure(dataStructure, datums);
+            dataStructure = addStartTimeDatumsToDataStructure(dataStructure, dataUrl);
+            dataStructure = addEndTimeDatumsToDataStructure(dataStructure, dataUrl);
         }
         return dataStructure;
     }
 
-    public static Map addMeasureDatumsToDataStructure(Map dataStructure, SplitDatums datums) {
+    public static Map addMeasureDatumsToDataStructure(Map dataStructure, String dataUrl) {
 
         if (validMeasureVariableExists(dataStructure)){
-
-            if( ((Map)dataStructure.get("measureVariable")).get("dataType").equals(Datatype.LONG.toString())) {
-                ((Map)dataStructure.get("measureVariable")).put("datums", stringListToLong(datums.getValues()));
-
-            } else if ( ((Map)dataStructure.get("measureVariable")).get("dataType").equals(Datatype.DOUBLE.toString())) {
-                ((Map)dataStructure.get("measureVariable")).put("datums", stringListToDouble(datums.getValues()));
-
-            } else
-                ((Map)dataStructure.get("measureVariable")).put("datums", datums.getValues());
-        } else
+                ((Map)dataStructure.get("measureVariable")).put("datums", dataUrl);
+        } else{
             throw new IllegalArgumentException(
                     "The DataStructure map has illegal measureVariable object. DataStructure = " + dataStructure);
-
+        }
         return dataStructure;
     }
 
@@ -73,20 +66,20 @@ public class DataMappingFunctions {
         return false;
     }
 
-    public static Map addIdentifierDatumsToDataStructure(Map dataStructure, SplitDatums datums) {
+    public static Map addIdentifierDatumsToDataStructure(Map dataStructure, String dataUrl) {
 
         Map identifierVariable = (Map) ((List)dataStructure.get("identifierVariables")).get(0);
 
         if (validIdentifierVariableExists(identifierVariable)){
-                identifierVariable.put("datums", datums.getIds());
-        } else
+                identifierVariable.put("datums", dataUrl);
+        } else{
             throw new IllegalArgumentException(
                     "The DataStructure map has illegal identifier object. DataStructure = " + dataStructure);
-
+        }
         return dataStructure;
     }
 
-    public static Map addStartTimeDatumsToDataStructure(Map dataStructure, SplitDatums datums) {
+    public static Map addStartTimeDatumsToDataStructure(Map dataStructure, String dataUrl) {
 
         Map startAttributeVariable=null;
         if (dataStructure!=null) {
@@ -97,15 +90,15 @@ public class DataMappingFunctions {
             startAttributeVariable = first.orElse(null);
         }
 
-        if (validAttributeVariableExists(startAttributeVariable) && datums.getStartDates().size() > 0){
-            startAttributeVariable.put("datums", datums.startDatesAsDays());
+        if (validAttributeVariableExists(startAttributeVariable)){
+            startAttributeVariable.put("datums", dataUrl);
         }else {
             startAttributeVariable.put("datums", new ArrayList<>());
         }
         return dataStructure;
     }
 
-    public static Map addEndTimeDatumsToDataStructure(Map dataStructure, SplitDatums datums) {
+    public static Map addEndTimeDatumsToDataStructure(Map dataStructure, String dataUrl) {
 
         Map endAttributeVariable=null;
         if (dataStructure!=null) {
@@ -116,8 +109,8 @@ public class DataMappingFunctions {
             endAttributeVariable = first.orElse(null);
         }
 
-        if (validAttributeVariableExists(endAttributeVariable) && datums.getStopDates().size() > 0){
-            endAttributeVariable.put("datums", datums.stopDatesAsDays());
+        if (validAttributeVariableExists(endAttributeVariable)){
+            endAttributeVariable.put("datums", dataUrl);
         }else {
             endAttributeVariable.put("datums", new ArrayList<>());
         }
