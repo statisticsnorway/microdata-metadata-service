@@ -22,13 +22,13 @@ public class DataServiceClientRepository implements DataServiceRepository {
 
     private final static Logger log = LoggerFactory.getLogger(DataServiceClientRepository.class);
 
-    @Value("${dataservice.url.status}")
+    @Value("${dataservice.endpoint.status}")
     private String statusURL;
 
-    @Value("${dataservice.url.event}")
+    @Value("${dataservice.endpoint.event}")
     private String eventURL;
 
-    @Value("${dataservice.url.fixed}")
+    @Value("${dataservice.endpoint.fixed}")
     private String fixedURL;
 
     private static final HttpClient httpClient = HttpClient.newBuilder()

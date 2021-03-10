@@ -13,10 +13,11 @@ datastore:
     dir: ${datastore.root}/dataset
 ---
 dataservice:
-  url:
-    status: http://127.0.0.1:8000/data/status
-    event: http://127.0.0.1:8000/data/event
-    fixed: http://127.0.0.1:8000/data/fixed
+  url: http://127.0.0.1:8000
+  endpoint:
+    status: ${dataservice.url}/data/status
+    event: ${dataservice.url}/data/event
+    fixed: ${dataservice.url}/data/fixed
 ---
 info:
   version: '@APPLICATION_VERSION@'
