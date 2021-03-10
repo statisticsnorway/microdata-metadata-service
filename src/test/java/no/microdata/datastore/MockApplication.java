@@ -29,7 +29,7 @@ import org.springframework.http.converter.json.AbstractJackson2HttpMessageConver
                 @ComponentScan.Filter(classes = AllMetadataServiceImpl.class, type = FilterType.ASSIGNABLE_TYPE),
                 @ComponentScan.Filter(classes = DataStructureServiceImpl.class, type = FilterType.ASSIGNABLE_TYPE),
                 @ComponentScan.Filter(classes = GenericServiceImpl.class, type = FilterType.ASSIGNABLE_TYPE),
-                @ComponentScan.Filter(classes = MetadataServiceApplication.class, type = FilterType.ASSIGNABLE_TYPE)
+                @ComponentScan.Filter(classes = Application.class, type = FilterType.ASSIGNABLE_TYPE)
         })
 
 @EnableAutoConfiguration()
