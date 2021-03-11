@@ -95,7 +95,7 @@ dependencyCheck {
 }
 
 springBoot {
-    mainClass = "no.microdata.datastore.DatastoreApplication"
+    mainClass = "no.microdata.datastore.Application"
     buildInfo {
         properties {
             additional = [
