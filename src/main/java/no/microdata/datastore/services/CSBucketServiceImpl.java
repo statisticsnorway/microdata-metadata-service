@@ -18,7 +18,7 @@ public class CSBucketServiceImpl implements CSBucketService {
     private final static Logger log = LoggerFactory.getLogger(CSBucketServiceImpl.class);
 
     @Override
-    public Boolean downloadObject(String objectName) {
+    public void downloadObject(String objectName) {
 
         // The ID of your GCP project
         String projectId = "ssb-team-microdata-staging";
@@ -34,13 +34,6 @@ public class CSBucketServiceImpl implements CSBucketService {
         Blob blob = storage.get(BlobId.of(bucketName, objectName));
         blob.downloadTo(Paths.get(destFilePath));
 
-        System.out.println(
-                "Downloaded object "
-                        + objectName
-                        + " from bucket name "
-                        + bucketName
-                        + " to "
-                        + destFilePath);
-        return true;
+        log.info("Downloaded object {} from bucket name {} to {}", objectName, bucketName, destFilePath);
     }
 }
