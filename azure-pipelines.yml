@@ -16,8 +16,8 @@ variables:
   imageName: 'eu.gcr.io/prod-bip/ssb/microdata/metadata-service'
   imageTagBeforeVulnerabilityScan: $(Build.SourceBranchName)-$(fullSha)
   repoName: 'prod-bip/ssb/microdata/metadata-service'
-  latestTag: 'bipLatest'
-  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]  
+  fullSha: '$(Build.SourceVersion)'
+  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
 
 steps:
 # Authenticate Maven to Nexus using predefined Service Connections
@@ -79,8 +79,7 @@ steps:
     command: 'build'
     Dockerfile: 'Dockerfile'
     tags: |
-      $(Build.BuildId)
-      $(latestTag)
+      $(Build.SourceBranchName)-$(fullSha)
       
 # Authenticate Docker to GCR using predefined service connection
 - task: Docker@2
@@ -100,5 +99,4 @@ steps:
     repository: $(repoName)
     command: 'push'
     tags: |
-      $(Build.BuildId)
-      $(latestTag)
+      $(Build.SourceBranchName)-$(fullSha)
