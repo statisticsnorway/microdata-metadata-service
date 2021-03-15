@@ -19,6 +19,12 @@ dataservice:
     event: ${dataservice.url}/data/event
     fixed: ${dataservice.url}/data/fixed
 ---
+bucket:
+  downloadFile: metadata-all-test__1_0_0.json
+  projectId: ssb-team-microdata-staging
+  bucketName: data-service-bucket-microdata-poc
+  destFile: metadata-all.json
+---
 info:
   version: '@APPLICATION_VERSION@'
 ---
