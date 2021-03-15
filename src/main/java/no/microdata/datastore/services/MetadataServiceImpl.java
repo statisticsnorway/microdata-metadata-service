@@ -33,8 +33,9 @@ public class MetadataServiceImpl implements MetadataService {
                 return dataset;
             }
         }
-        log.error("Dataset with name " + metadataQuery.getNames().get(0) + " not found");
-        throw new RuntimeException();
+        String msg = "Dataset with name " + metadataQuery.getNames().get(0) + " not found";
+        log.error(msg);
+        throw new RuntimeException(msg);
     }
 
     @Override
