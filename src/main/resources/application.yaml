@@ -20,10 +20,18 @@ dataservice:
     fixed: ${dataservice.url}/data/fixed
 ---
 bucket:
-  downloadFile: metadata-all-test__1_0_0.json
   projectId: ssb-team-microdata-staging
   bucketName: data-service-bucket-microdata-poc
-  destFile: metadata-all.json
+  files:
+    metadata-all:
+      downloadFile: metadata-all-test__1_0_0.json
+      destFile: metadata-all.json
+    data-store:
+      downloadFile: data-store.json
+      destFile: data-store.json
+    versions:
+      downloadFile: versions.json
+      destFile: versions.json
 ---
 info:
   version: @APPLICATION_VERSION@

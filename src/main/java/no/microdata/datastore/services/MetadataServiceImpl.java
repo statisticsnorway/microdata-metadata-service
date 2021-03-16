@@ -37,7 +37,7 @@ public class MetadataServiceImpl implements MetadataService {
 
     @Override
     public List<Map<String, Object>> findDataStructures(MetadataQuery query) {
-        Map metadataAll = metadataRepository.getMetadataAll();
+        Map metadataAll = metadataRepository.getMetadataAllFile();
 
         List<Map<String, Object>> datasets = (List<Map<String, Object>>) metadataAll.get("dataStructures");
         List<Map<String, Object>> found = new ArrayList<>();
