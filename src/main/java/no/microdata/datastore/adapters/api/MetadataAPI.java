@@ -1,9 +1,6 @@
 package no.microdata.datastore.adapters.api;
 
-import no.microdata.datastore.AllMetadataService;
-import no.microdata.datastore.DataStoreService;
-import no.microdata.datastore.DataStructureService;
-import no.microdata.datastore.GenericService;
+import no.microdata.datastore.*;
 import no.microdata.datastore.model.MetadataQuery;
 import no.microdata.datastore.transformations.VersionUtils;
 import org.slf4j.Logger;
@@ -29,8 +26,10 @@ class MetadataAPI {
 
     private final static Logger log = LoggerFactory.getLogger(MetadataAPI.class);
 
+//    @Autowired
+//    DataStructureService dataStructureService;
     @Autowired
-    DataStructureService dataStructureService;
+    MetadataService metadataService;
 
     @Autowired
     DataStoreService dataStoreService;
@@ -76,7 +75,7 @@ class MetadataAPI {
         response.setHeader(X_REQUEST_ID, query.getRequestId());
         response.setHeader(CONTENT_LANGUAGE, "no");
 
-        return dataStructureService.find(query);
+        return metadataService.findDataStructures(query);
     }
 
     @RequestMapping(value = "/metadata/all", method = RequestMethod.GET)

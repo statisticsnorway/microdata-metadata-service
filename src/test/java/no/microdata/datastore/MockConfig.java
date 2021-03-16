@@ -12,8 +12,11 @@ public class MockConfig {
     @Bean
     public DataStoreService dataStoreService(){return Mockito.mock(DataStoreService.class);}
 
+//    @Bean
+//    public DataStructureService dataStructureService(){return Mockito.mock(DataStructureService.class);}
+
     @Bean
-    public DataStructureService dataStructureService(){return Mockito.mock(DataStructureService.class);}
+    public MetadataService metadataService(){return Mockito.mock(MetadataService.class);}
 
     @Bean
     public GenericService genericService(){return Mockito.mock(GenericService.class);}
@@ -23,5 +26,4 @@ public class MockConfig {
 
     @Bean
     public DataService dataService(){return Mockito.mock(DataService.class);}
-
 }
