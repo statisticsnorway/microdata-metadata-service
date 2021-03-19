@@ -2,34 +2,17 @@ package no.microdata.datastore.adapters.api;
 
 import com.google.common.base.Stopwatch;
 import no.microdata.datastore.DataService;
-import no.microdata.datastore.adapters.api.dto.DataStoreVersionQuery;
-import no.microdata.datastore.adapters.api.dto.InputFixedQuery;
-import no.microdata.datastore.adapters.api.dto.InputQuery;
-import no.microdata.datastore.adapters.api.dto.InputTimePeriodQuery;
-import no.microdata.datastore.adapters.api.dto.InputTimeQuery;
-import no.microdata.datastore.adapters.api.dto.Status;
+import no.microdata.datastore.adapters.api.dto.*;
 import no.microdata.datastore.exceptions.BadRequestException;
 import no.microdata.datastore.exceptions.DataNotFoundException;
 import no.microdata.datastore.exceptions.NotFoundException;
 import no.microdata.datastore.exceptions.UnauthorizedException;
-import no.microdata.datastore.model.DatasetRevision;
-import no.microdata.datastore.model.EventQuery;
-import no.microdata.datastore.model.FixedQuery;
-import no.microdata.datastore.model.IntervalFilter;
-import no.microdata.datastore.model.MetadataQuery;
-import no.microdata.datastore.model.StatusQuery;
-import no.microdata.datastore.model.UnitIdFilter;
-import no.microdata.datastore.model.ValueFilter;
+import no.microdata.datastore.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
@@ -37,7 +20,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static no.microdata.datastore.adapters.api.Constants.*;
-import static no.microdata.datastore.adapters.api.RequestId.*;
+import static no.microdata.datastore.adapters.api.RequestId.verifyAndUpdateRequestId;
 
 @RestController
 @RequestMapping( produces = {"application/json","application/x-msgpack"}, consumes = {"application/json","application/x-msgpack"} )

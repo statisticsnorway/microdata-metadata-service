@@ -1,16 +1,12 @@
 package no.microdata.datastore.adapters.api;
 
-import no.microdata.datastore.*;
+import no.microdata.datastore.MetadataService;
 import no.microdata.datastore.model.MetadataQuery;
 import no.microdata.datastore.transformations.VersionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
@@ -18,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import static no.microdata.datastore.adapters.api.Constants.*;
-import static no.microdata.datastore.adapters.api.RequestId.*;
+import static no.microdata.datastore.adapters.api.RequestId.verifyAndUpdateRequestId;
 
 @RestController
 @RequestMapping(produces = {"application/json;charset=UTF-8", "application/x-msgpack"})
@@ -26,19 +22,8 @@ class MetadataAPI {
 
     private final static Logger log = LoggerFactory.getLogger(MetadataAPI.class);
 
-//    @Autowired
-//    DataStructureService dataStructureService;
     @Autowired
     MetadataService metadataService;
-
-//    @Autowired
-//    DataStoreService dataStoreService;
-
-//    @Autowired
-//    AllMetadataService allMetadataService;
-
-//    @Autowired
-//    GenericService genericService;
 
     @RequestMapping(value = "/metadata/data-store", method = RequestMethod.GET)
     Map getDataStore(@RequestHeader(value = X_REQUEST_ID, required = false) String requestId,
