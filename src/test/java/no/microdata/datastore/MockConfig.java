@@ -10,11 +10,8 @@ import org.springframework.context.annotation.Configuration;
 public class MockConfig {
 
     @Bean
-    public MetadataService metadataService(){return Mockito.mock(MetadataService.class);}
-
-    @Bean
-    public GenericService genericService(){return Mockito.mock(GenericService.class);}
-
-    @Bean
     public DataService dataService(){return Mockito.mock(DataService.class);}
+
+    @Bean
+    public MetadataService metadataService(){return Mockito.mock(MetadataService.class);}
 }

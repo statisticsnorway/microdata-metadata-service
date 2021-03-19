@@ -64,7 +64,7 @@ class MetadataAPITest {
     //DataStructureService dataStructureService;
     MetadataService metadataService;
 
-    GenericService genericService;
+//    GenericService genericService;
 
     @BeforeEach
     public void setUp(WebApplicationContext webApplicationContext,
@@ -75,8 +75,6 @@ class MetadataAPITest {
 
         metadataService = (MetadataService) webApplicationContext.getBean("metadataService");
         reset(metadataService);
-        genericService = (GenericService) webApplicationContext.getBean("genericService");
-        reset(genericService);
     }
 
     @Test
@@ -226,7 +224,7 @@ class MetadataAPITest {
         var expectedLanguages = GenericAPIFixture.LANGUAGES;
         var requestId = "we34";
 
-        when(genericService.findLanguages(requestId)).thenReturn(expectedLanguages);
+        when(metadataService.findLanguages(requestId)).thenReturn(expectedLanguages);
 
         mockMvc.perform(RestDocumentationRequestBuilders.get("/languages")
                 .header(Constants.X_REQUEST_ID, requestId))
@@ -245,7 +243,7 @@ class MetadataAPITest {
                                 PayloadDocumentation.fieldWithPath("[].code").description("The language code"),
                                 PayloadDocumentation.fieldWithPath("[].label").description("The name of the language"))));
 
-        verify(genericService).findLanguages(requestId);
+        verify(metadataService).findLanguages(requestId);
     }
 
 }

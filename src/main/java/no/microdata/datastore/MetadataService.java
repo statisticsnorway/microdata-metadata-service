@@ -18,4 +18,6 @@ public interface MetadataService {
 
     Map findAllMetadata(MetadataQuery query);
 
+    List<Map<String, Object>> findLanguages(String requestId);
+
 }

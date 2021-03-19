@@ -71,4 +71,12 @@ public class MetadataServiceImpl implements MetadataService {
     public Map findAllMetadata(MetadataQuery query) {
         return metadataRepository.getMetadataAllFile();
     }
+
+    @Override
+    public List<Map<String, Object>> findLanguages(String requestId) {
+        return List.of(Map.of(
+                "code", "no",
+                "label", "Norsk"
+        ));
+    }
 }

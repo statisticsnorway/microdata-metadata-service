@@ -37,8 +37,8 @@ class MetadataAPI {
 //    @Autowired
 //    AllMetadataService allMetadataService;
 
-    @Autowired
-    GenericService genericService;
+//    @Autowired
+//    GenericService genericService;
 
     @RequestMapping(value = "/metadata/data-store", method = RequestMethod.GET)
     Map getDataStore(@RequestHeader(value = X_REQUEST_ID, required = false) String requestId,
@@ -108,7 +108,7 @@ class MetadataAPI {
         requestId = verifyAndUpdateRequestId(requestId);
         response.setHeader(X_REQUEST_ID, requestId);
 
-        return genericService.findLanguages(requestId);
+        return metadataService.findLanguages(requestId);
     }
 
     String joinToString(List<String> languages){
