@@ -10,12 +10,6 @@ import org.springframework.context.annotation.Configuration;
 public class MockConfig {
 
     @Bean
-    public DataStoreService dataStoreService(){return Mockito.mock(DataStoreService.class);}
-
-//    @Bean
-//    public DataStructureService dataStructureService(){return Mockito.mock(DataStructureService.class);}
-
-    @Bean
     public MetadataService metadataService(){return Mockito.mock(MetadataService.class);}
 
     @Bean

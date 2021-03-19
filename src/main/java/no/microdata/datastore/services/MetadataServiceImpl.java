@@ -58,4 +58,13 @@ public class MetadataServiceImpl implements MetadataService {
                 "datastructureVersion", "1.0.0.0"
         );
     }
+
+    @Override
+    public Map<String, Object> findAllDataStoreVersions(String requestId) {
+        Map<String, Object> datastore = metadataRepository.getDataStoreFile();
+        Map<String, Object> versions = metadataRepository.getVersionsFile();
+        datastore.putAll(versions);
+        return datastore;
+    }
+
 }

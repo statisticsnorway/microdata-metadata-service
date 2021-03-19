@@ -59,8 +59,6 @@ class MetadataAPITest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    DataStoreService dataStoreService;
-
     AllMetadataService allMetadataService;
 
     //DataStructureService dataStructureService;
@@ -79,8 +77,6 @@ class MetadataAPITest {
         reset(allMetadataService);
         metadataService = (MetadataService) webApplicationContext.getBean("metadataService");
         reset(metadataService);
-        dataStoreService = (DataStoreService) webApplicationContext.getBean("dataStoreService");
-        reset(dataStoreService);
         genericService = (GenericService) webApplicationContext.getBean("genericService");
         reset(genericService);
     }
@@ -90,7 +86,7 @@ class MetadataAPITest {
         var expectedDataStoreVersions = MetadataAPIFixture.dataStoreVersions();
         var requestId = "test-123";
 
-        when(dataStoreService.findAllDataStoreVersions(requestId)).thenReturn(expectedDataStoreVersions);
+        when(metadataService.findAllDataStoreVersions(requestId)).thenReturn(expectedDataStoreVersions);
 
         mockMvc.perform(
                 get("/metadata/data-store", requestId, "no")
@@ -113,7 +109,7 @@ class MetadataAPITest {
                                 HeaderDocumentation.headerWithName(Constants.CONTENT_TYPE).description(CONTENT_TYPE_DESCRIPTION))
                 ));
 
-        verify(dataStoreService).findAllDataStoreVersions(requestId);
+        verify(metadataService).findAllDataStoreVersions(requestId);
     }
 
     @Test

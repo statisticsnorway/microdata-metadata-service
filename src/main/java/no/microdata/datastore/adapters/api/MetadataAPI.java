@@ -31,8 +31,8 @@ class MetadataAPI {
     @Autowired
     MetadataService metadataService;
 
-    @Autowired
-    DataStoreService dataStoreService;
+//    @Autowired
+//    DataStoreService dataStoreService;
 
     @Autowired
     AllMetadataService allMetadataService;
@@ -52,7 +52,7 @@ class MetadataAPI {
         response.setHeader(X_REQUEST_ID, verifiedRequestId);
         response.setHeader(CONTENT_LANGUAGE, "no");
 
-        return dataStoreService.findAllDataStoreVersions(verifiedRequestId);
+        return metadataService.findAllDataStoreVersions(verifiedRequestId);
     }
 
     @RequestMapping(value = "/metadata/data-structures", method = RequestMethod.GET)
