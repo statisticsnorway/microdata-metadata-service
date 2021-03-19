@@ -16,8 +16,5 @@ public class MockConfig {
     public GenericService genericService(){return Mockito.mock(GenericService.class);}
 
     @Bean
-    public AllMetadataService allMetadataService(){return Mockito.mock(AllMetadataService.class);}
-
-    @Bean
     public DataService dataService(){return Mockito.mock(DataService.class);}
 }

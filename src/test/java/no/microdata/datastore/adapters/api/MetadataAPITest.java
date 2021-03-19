@@ -59,7 +59,7 @@ class MetadataAPITest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    AllMetadataService allMetadataService;
+    //AllMetadataService allMetadataService;
 
     //DataStructureService dataStructureService;
     MetadataService metadataService;
@@ -73,8 +73,6 @@ class MetadataAPITest {
                 .apply(documentationConfiguration(restDocumentation))
                 .build();
 
-        allMetadataService = (AllMetadataService) webApplicationContext.getBean("allMetadataService");
-        reset(allMetadataService);
         metadataService = (MetadataService) webApplicationContext.getBean("metadataService");
         reset(metadataService);
         genericService = (GenericService) webApplicationContext.getBean("genericService");
@@ -165,7 +163,7 @@ class MetadataAPITest {
                 "version", VersionUtils.toThreeLabelsIfNotDraft(requestVersion))
         );
 
-        when(allMetadataService.find(query)).thenReturn(expectedAllMetadata);
+        when(metadataService.findAllMetadata(query)).thenReturn(expectedAllMetadata);
 
         mockMvc.perform(
                 get("/metadata/all?version={version}", requestVersion)
@@ -194,7 +192,7 @@ class MetadataAPITest {
                                 subsectionWithPath("dataStructures").description("All datastructures")
                         )));
 
-        verify(allMetadataService).find(query);
+        verify(metadataService).findAllMetadata(query);
     }
 
     @Test

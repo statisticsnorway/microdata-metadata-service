@@ -16,4 +16,6 @@ public interface MetadataService {
 
     Map findAllDataStoreVersions(String requestId);
 
+    Map findAllMetadata(MetadataQuery query);
+
 }

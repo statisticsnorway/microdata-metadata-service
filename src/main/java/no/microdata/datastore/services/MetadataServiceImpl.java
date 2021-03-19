@@ -67,4 +67,8 @@ public class MetadataServiceImpl implements MetadataService {
         return datastore;
     }
 
+    @Override
+    public Map findAllMetadata(MetadataQuery query) {
+        return metadataRepository.getMetadataAllFile();
+    }
 }

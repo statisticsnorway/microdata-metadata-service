@@ -34,8 +34,8 @@ class MetadataAPI {
 //    @Autowired
 //    DataStoreService dataStoreService;
 
-    @Autowired
-    AllMetadataService allMetadataService;
+//    @Autowired
+//    AllMetadataService allMetadataService;
 
     @Autowired
     GenericService genericService;
@@ -96,7 +96,7 @@ class MetadataAPI {
         response.setHeader(X_REQUEST_ID, query.getRequestId());
         response.setHeader(CONTENT_LANGUAGE, "no");
 
-        return allMetadataService.find(query);
+        return metadataService.findAllMetadata(query);
     }
 
     @RequestMapping(value = "/languages", method = RequestMethod.GET)

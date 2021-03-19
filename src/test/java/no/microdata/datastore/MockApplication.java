@@ -1,7 +1,6 @@
 package no.microdata.datastore;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import no.microdata.datastore.services.AllMetadataServiceImpl;
 import no.microdata.datastore.services.GenericServiceImpl;
 import no.microdata.datastore.services.MetadataServiceImpl;
 import org.msgpack.jackson.dataformat.MessagePackFactory;
@@ -24,7 +23,6 @@ import org.springframework.http.converter.json.AbstractJackson2HttpMessageConver
 @Configuration
 @ComponentScan(basePackages = {"no.microdata.datastore"}, excludeFilters =
         {
-                @ComponentScan.Filter(classes = AllMetadataServiceImpl.class, type = FilterType.ASSIGNABLE_TYPE),
                 @ComponentScan.Filter(classes = MetadataServiceImpl.class, type = FilterType.ASSIGNABLE_TYPE),
                 @ComponentScan.Filter(classes = GenericServiceImpl.class, type = FilterType.ASSIGNABLE_TYPE),
                 @ComponentScan.Filter(classes = Application.class, type = FilterType.ASSIGNABLE_TYPE)
