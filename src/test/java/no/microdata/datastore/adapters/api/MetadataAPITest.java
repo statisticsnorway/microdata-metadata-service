@@ -1,13 +1,14 @@
 package no.microdata.datastore.adapters.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import no.microdata.datastore.*;
+import no.microdata.datastore.MetadataService;
+import no.microdata.datastore.MockApplication;
+import no.microdata.datastore.MockConfig;
 import no.microdata.datastore.model.MetadataQuery;
 import no.microdata.datastore.transformations.VersionUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -56,15 +57,7 @@ class MetadataAPITest {
 
     private MockMvc mockMvc;
 
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-
-    //AllMetadataService allMetadataService;
-
-    //DataStructureService dataStructureService;
     MetadataService metadataService;
-
-//    GenericService genericService;
 
     @BeforeEach
     public void setUp(WebApplicationContext webApplicationContext,
