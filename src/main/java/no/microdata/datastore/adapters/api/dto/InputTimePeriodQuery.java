@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static no.microdata.datastore.transformations.Utils.*;
+import static no.microdata.datastore.adapters.api.ErrorMessage.*;
 
 public class InputTimePeriodQuery extends InputQuery{
 
@@ -22,10 +23,10 @@ public class InputTimePeriodQuery extends InputQuery{
      */
     public boolean validate() {
         super.validate();
-        if (isNullOrEmpty(startDate))
-            throw  new BadRequestException(no.microdata.datastore.adapters.api.ErrorMessage.requestValidationError(no.microdata.datastore.adapters.api.ErrorMessage.INPUT_FIELD_START_DATE));
-        if (isNullOrEmpty(stopDate))
-            throw  new BadRequestException(no.microdata.datastore.adapters.api.ErrorMessage.requestValidationError(no.microdata.datastore.adapters.api.ErrorMessage.INPUT_FIELD_STOP_DATE));
+        if (isNullOrEmptyOrNegative(startDate))
+            throw  new BadRequestException(requestValidationError(INPUT_FIELD_START_DATE));
+        if (isNullOrEmptyOrNegative(stopDate))
+            throw  new BadRequestException(requestValidationError(INPUT_FIELD_STOP_DATE));
         return true;
     }
 
