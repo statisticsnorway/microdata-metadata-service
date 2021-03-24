@@ -13,6 +13,7 @@ public class MetadataQuery {
     String requestId;
     List<String> names;
     String version;
+    Boolean includeAttributes;
 
     public MetadataQuery(Map inputFields) {
 
@@ -36,6 +37,7 @@ public class MetadataQuery {
         this.version = "1.0.0.0";
         this.requestId = (String) inputFields.get("requestId");
         this.languages = (String) inputFields.get("languages");
+        this.includeAttributes = (Boolean)inputFields.get("includeAttributes");
     }
 
     private boolean hasRequiredField(String field) {
@@ -49,6 +51,7 @@ public class MetadataQuery {
                 + ", requestId=" + requestId
                 + ", names=" + String.join(", ", names)
                 + ", version=" + version
+                + ", includeAttributes=" + includeAttributes
                 + ']';
     }
 
@@ -72,7 +75,8 @@ public class MetadataQuery {
         return Objects.equals(languages, other.languages)
                 && Objects.equals(requestId, other.requestId)
                 && Objects.equals(names, other.names)
-                && Objects.equals(version, other.version);
+                && Objects.equals(version, other.version)
+                && Objects.equals(includeAttributes, other.includeAttributes);
     }
 
     public String getLanguages() {
@@ -90,4 +94,6 @@ public class MetadataQuery {
     public String getVersion() {
         return version;
     }
+
+    public Boolean getIncludeAttributes() { return includeAttributes; }
 }
