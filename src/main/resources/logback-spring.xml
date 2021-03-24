@@ -27,6 +27,10 @@
                 <!-- For å få full stacktrace ved exception : -->
                 <!-- "error.stack": "[%thread] - %msg%n%stack{full,full,full,rootFirst,regex1,regex2,evaluatorName}" -->
 
+                <!-- Error must be configured as follows: -->
+                <!-- error : when we deploy on BIP -->
+                <!-- error.stack : when we deploy on prem -->
+
                 <pattern>
                     <pattern>   {
                         "schemaVersion": "v3",
