@@ -1,10 +1,7 @@
 package no.microdata.datastore.adapters.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import no.microdata.datastore.AllMetadataService;
-import no.microdata.datastore.DataStoreService;
-import no.microdata.datastore.DataStructureService;
-import no.microdata.datastore.GenericService;
+import no.microdata.datastore.MetadataService;
 import no.microdata.datastore.MockApplication;
 import no.microdata.datastore.MockConfig;
 import no.microdata.datastore.model.MetadataQuery;
@@ -12,7 +9,6 @@ import no.microdata.datastore.transformations.VersionUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -32,13 +28,18 @@ import java.util.List;
 import java.util.Map;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.restdocs.headers.HeaderDocumentation.*;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT,classes = {MockApplication.class, MockConfig.class})
@@ -56,16 +57,7 @@ class MetadataAPITest {
 
     private MockMvc mockMvc;
 
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-
-    DataStoreService dataStoreService;
-
-    AllMetadataService allMetadataService;
-
-    DataStructureService dataStructureService;
-
-    GenericService genericService;
+    MetadataService metadataService;
 
     @BeforeEach
     public void setUp(WebApplicationContext webApplicationContext,
@@ -74,14 +66,8 @@ class MetadataAPITest {
                 .apply(documentationConfiguration(restDocumentation))
                 .build();
 
-        allMetadataService = (AllMetadataService) webApplicationContext.getBean("allMetadataService");
-        reset(allMetadataService);
-        dataStructureService = (DataStructureService) webApplicationContext.getBean("dataStructureService");
-        reset(dataStructureService);
-        dataStoreService = (DataStoreService) webApplicationContext.getBean("dataStoreService");
-        reset(dataStoreService);
-        genericService = (GenericService) webApplicationContext.getBean("genericService");
-        reset(genericService);
+        metadataService = (MetadataService) webApplicationContext.getBean("metadataService");
+        reset(metadataService);
     }
 
     @Test
@@ -89,7 +75,7 @@ class MetadataAPITest {
         var expectedDataStoreVersions = MetadataAPIFixture.dataStoreVersions();
         var requestId = "test-123";
 
-        when(dataStoreService.findAllDataStoreVersions(requestId)).thenReturn(expectedDataStoreVersions);
+        when(metadataService.findAllDataStoreVersions(requestId)).thenReturn(expectedDataStoreVersions);
 
         mockMvc.perform(
                 get("/metadata/data-store", requestId, "no")
@@ -112,7 +98,7 @@ class MetadataAPITest {
                                 HeaderDocumentation.headerWithName(Constants.CONTENT_TYPE).description(CONTENT_TYPE_DESCRIPTION))
                 ));
 
-        verify(dataStoreService).findAllDataStoreVersions(requestId);
+        verify(metadataService).findAllDataStoreVersions(requestId);
     }
 
     @Test
@@ -127,7 +113,7 @@ class MetadataAPITest {
         ));
         var names = "FNR,AKT_ARBAP";
 
-        when(dataStructureService.find(query)).thenReturn(expectedDataStructures);
+        when(metadataService.findDataStructures(query)).thenReturn(expectedDataStructures);
 
         mockMvc.perform(
                 get("/metadata/data-structures?names={names}&version={version}", names, requestVersion)
@@ -155,7 +141,7 @@ class MetadataAPITest {
                         )
                 );
 
-        verify(dataStructureService).find(query);
+        verify(metadataService).findDataStructures(query);
     }
 
     @Test
@@ -168,7 +154,7 @@ class MetadataAPITest {
                 "version", VersionUtils.toThreeLabelsIfNotDraft(requestVersion))
         );
 
-        when(allMetadataService.find(query)).thenReturn(expectedAllMetadata);
+        when(metadataService.findAllMetadata(query)).thenReturn(expectedAllMetadata);
 
         mockMvc.perform(
                 get("/metadata/all?version={version}", requestVersion)
@@ -197,7 +183,7 @@ class MetadataAPITest {
                                 subsectionWithPath("dataStructures").description("All datastructures")
                         )));
 
-        verify(allMetadataService).find(query);
+        verify(metadataService).findAllMetadata(query);
     }
 
     @Test
@@ -211,7 +197,7 @@ class MetadataAPITest {
                 "version", VersionUtils.toThreeLabelsIfNotDraft(requestVersion))
         );
 
-        when(dataStructureService.find(query)).thenReturn(expectedDataStructures);
+        when(metadataService.findDataStructures(query)).thenReturn(expectedDataStructures);
         var names = "FNR,AKT_ARBAP";
 
         mockMvc.perform(
@@ -223,7 +209,7 @@ class MetadataAPITest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(Constants.ACCEPT_MSGPACK));
 
-        verify(dataStructureService).find(query);
+        verify(metadataService).findDataStructures(query);
     }
 
     @Test
@@ -231,7 +217,7 @@ class MetadataAPITest {
         var expectedLanguages = GenericAPIFixture.LANGUAGES;
         var requestId = "we34";
 
-        when(genericService.findLanguages(requestId)).thenReturn(expectedLanguages);
+        when(metadataService.findLanguages(requestId)).thenReturn(expectedLanguages);
 
         mockMvc.perform(RestDocumentationRequestBuilders.get("/languages")
                 .header(Constants.X_REQUEST_ID, requestId))
@@ -250,7 +236,7 @@ class MetadataAPITest {
                                 PayloadDocumentation.fieldWithPath("[].code").description("The language code"),
                                 PayloadDocumentation.fieldWithPath("[].label").description("The name of the language"))));
 
-        verify(genericService).findLanguages(requestId);
+        verify(metadataService).findLanguages(requestId);
     }
 
 }

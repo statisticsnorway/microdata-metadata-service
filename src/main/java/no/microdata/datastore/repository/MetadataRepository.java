@@ -4,6 +4,10 @@ import java.util.Map;
 
 public interface MetadataRepository {
 
-    Map getMetadataAll();
+    Map getMetadataAllFile();
+
+    Map getDataStoreFile();
+
+    Map getVersionsFile();
 
 }

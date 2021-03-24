@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -24,18 +25,32 @@ public class MetadataServiceImpl implements MetadataService {
     MetadataRepository metadataRepository;
 
     @Override
-    public Map getDataStructure(MetadataQuery metadataQuery) {
-        Map metadataAll = metadataRepository.getMetadataAll();
+    public Map getDataStructure(MetadataQuery query) {
+        List<Map<String, Object>> datasets = this.findDataStructures(query);
+        if (datasets.isEmpty()){
+            String msg = "Dataset with name " + query.getNames().get(0) + " not found";
+            log.error(msg);
+            throw new RuntimeException(msg);
+        }
+        return datasets.get(0);
+    }
 
-        List<Map> datasets = (List<Map>) metadataAll.get("dataStructures");
-        for (Map dataset: datasets) {
-            if (Objects.equals(metadataQuery.getNames().get(0), dataset.get("name"))) {
-                return dataset;
+    @Override
+    public List<Map<String, Object>> findDataStructures(MetadataQuery query) {
+        Map metadataAll = metadataRepository.getMetadataAllFile();
+
+        List<Map<String, Object>> datasets = (List<Map<String, Object>>) metadataAll.get("dataStructures");
+        List<Map<String, Object>> found = new ArrayList<>();
+
+        for (Map<String, Object> dataset: datasets) {
+            if (Objects.equals(query.getNames().get(0), dataset.get("name"))) {
+                if ( ! query.getIncludeAttributes() ){
+                    dataset.remove("attributeVariables");
+                }
+                found.add(dataset);
             }
         }
-        String msg = "Dataset with name " + metadataQuery.getNames().get(0) + " not found";
-        log.error(msg);
-        throw new RuntimeException(msg);
+        return found;
     }
 
     @Override
@@ -45,5 +60,26 @@ public class MetadataServiceImpl implements MetadataService {
                 "datastructureName", query.dataStructureName(),
                 "datastructureVersion", "1.0.0.0"
         );
+    }
+
+    @Override
+    public Map<String, Object> findAllDataStoreVersions(String requestId) {
+        Map<String, Object> datastore = metadataRepository.getDataStoreFile();
+        Map<String, Object> versions = metadataRepository.getVersionsFile();
+        datastore.putAll(versions);
+        return datastore;
+    }
+
+    @Override
+    public Map findAllMetadata(MetadataQuery query) {
+        return metadataRepository.getMetadataAllFile();
+    }
+
+    @Override
+    public List<Map<String, Object>> findLanguages(String requestId) {
+        return List.of(Map.of(
+                "code", "no",
+                "label", "Norsk"
+        ));
     }
 }
