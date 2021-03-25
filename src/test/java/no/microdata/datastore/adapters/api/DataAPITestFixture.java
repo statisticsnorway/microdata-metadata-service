@@ -48,13 +48,7 @@ class DataAPITestFixture {
                         "name": "PERSON"
                       },
                       "variableRole": "Stop",
-                      "datums": [
-                        11323,
-                        11688,
-                        11323,
-                        11688,
-                        11323
-                      ]
+                      "datums": "https://data-service.staging-bip-app.ssb.no/retrieveResultSet?file_name=624f0e13-9f85-49fe-8ad4-9239d4b45858.parquet"
                     },
                     {
                       "dataType": "Instant",
@@ -93,13 +87,7 @@ class DataAPITestFixture {
                         }
                       ],
                       "variableRole": "Start",
-                      "datums": [
-                        10957,
-                        11323,
-                        10957,
-                        11323,
-                        10957
-                      ]
+                      "datums": "https://data-service.staging-bip-app.ssb.no/retrieveResultSet?file_name=624f0e13-9f85-49fe-8ad4-9239d4b45858.parquet"
                     }
                   ],
                   "identifierVariables": [
@@ -140,13 +128,7 @@ class DataAPITestFixture {
                         }
                       ],
                       "variableRole": "Identifier",
-                      "datums": [
-                        1,
-                        2,
-                        2,
-                        3,
-                        4
-                      ]
+                      "datums": "https://data-service.staging-bip-app.ssb.no/retrieveResultSet?file_name=624f0e13-9f85-49fe-8ad4-9239d4b45858.parquet"
                     }
                   ],
                   "measureVariable": {
@@ -186,13 +168,7 @@ class DataAPITestFixture {
                       }
                     ],
                     "variableRole": "Measure",
-                    "datums": [
-                      "1",
-                      "2",
-                      "45",
-                      "3",
-                      "4"
-                    ]
+                    "datums": "https://data-service.staging-bip-app.ssb.no/retrieveResultSet?file_name=624f0e13-9f85-49fe-8ad4-9239d4b45858.parquet"
                   },
                   "name": "FNR",
                   "temporality": "Event",

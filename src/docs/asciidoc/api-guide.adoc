@@ -1,4 +1,4 @@
-= Test Datastore Rest API
+= Metadata Service Rest API
 ;
 :doctype: book
 :source-highlighter: highlightjs
@@ -11,12 +11,15 @@
 
 [[overview]]
 = Overview
-Rest API for returning data and metadata from a Datastore designed to test third party"s synthetic collections.
+Rest API returning data link and metadata from a Datastore.
+
+The data link is used by the client to download a binary file containing response data.
+
 Every resource return either JSON or Message Pack format.
-The data store exposed by this API is a collection of directories, json files and SQLite databases.
+
 
 == Authentication
-This is an open API without any authentication.
+This is currently an open API.
 
 == Errors
 We use conventional HTTP response codes to indicate the success or failure of an API request. In general, codes in the 2xx range indicate success, codes in the 4xx range indicate an error, and codes in the 5xx range indicate an error within the API.
