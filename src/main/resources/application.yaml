@@ -13,11 +13,11 @@ bucket:
   bucketName: data-service-bucket-microdata-poc
   files:
     metadata-all:
-      downloadFile: metadata-all-test__1_0_0.json
+      downloadFile: metadata-all__1_0_0.json
       destFile: metadata-all.json
     data-store:
-      downloadFile: data-store.json
-      destFile: data-store.json
+      downloadFile: datastore.json
+      destFile: datastore.json
     versions:
       downloadFile: versions.json
       destFile: versions.json
