@@ -11,15 +11,16 @@ dataservice:
 bucket:
   projectId: ssb-team-microdata-staging
   bucketName: data-service-bucket-microdata-poc
+  datastore: no_ssb_test
   files:
     metadata-all:
-      downloadFile: metadata-all__1_0_0.json
+      downloadFile: ${bucket.datastore}/metadata/metadata-all__1_0_0.json
       destFile: metadata-all.json
     data-store:
-      downloadFile: datastore.json
+      downloadFile: ${bucket.datastore}/metadata/datastore.json
       destFile: datastore.json
     versions:
-      downloadFile: versions.json
+      downloadFile: ${bucket.datastore}/metadata/versions.json
       destFile: versions.json
 ---
 info:
