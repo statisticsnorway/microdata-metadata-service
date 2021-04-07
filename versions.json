@@ -1,0 +1,28 @@
+{
+    "versions": [
+        {
+            "version": "1.0.0.0",
+            "description": "Dette er description til testversjon 1.0.0.0",
+            "releaseTime": 1607332752,
+            "languageCode": "no",
+            "dataStructureUpdates": [
+                {
+                    "description": "Første publisering",
+                    "name": "GRUNNSTFDT_MOTTAK",
+                    "operation": "ADD"
+                },
+                {
+                    "description": "Første publisering",
+                    "name": "TEST_PERSON_INCOME",
+                    "operation": "ADD"
+                },
+                {
+                    "description": "Første publisering",
+                    "name": "TEST_PERSON_PETS",
+                    "operation": "ADD"
+                }
+            ],
+            "updateType": "MAJOR"
+        }
+    ]
+}

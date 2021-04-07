@@ -1,0 +1,314 @@
+{
+    "dataStore": {
+        "description": "Registerdata som inng\u00e5r i SSBs statistikkproduksjon",
+        "label": "Data fra SSB",
+        "languageCode": "no",
+        "name": "no.ssb.fdb"
+    },
+    "dataStructures": [
+        {
+            "attributeVariables": [
+                {
+                    "dataType": "Instant",
+                    "label": "Stoppdato",
+                    "name": "STOP",
+                    "representedVariables": [
+                        {
+                            "description": "Stoppdato/sluttdato for hendelsen",
+                            "validPeriod": {
+                                "start": 8004,
+                                "stop": 18230
+                            },
+                            "valueDomain": {
+                                "description": "N/A",
+                                "unitOfMeasure": "N/A"
+                            }
+                        }
+                    ],
+                    "variableRole": "Stop"
+                },
+                {
+                    "dataType": "Instant",
+                    "label": "Startdato",
+                    "name": "START",
+                    "representedVariables": [
+                        {
+                            "description": "Startdato/m\u00e5letidspunktet for hendelsen",
+                            "validPeriod": {
+                                "start": 8004,
+                                "stop": 18230
+                            },
+                            "valueDomain": {
+                                "description": "N/A",
+                                "unitOfMeasure": "N/A"
+                            }
+                        }
+                    ],
+                    "variableRole": "Start"
+                }
+            ],
+            "identifierVariables": [
+                {
+                    "dataType": "Long",
+                    "format": "RandomUInt48",
+                    "keyType": {
+                        "description": "Statistisk enhet er person (individ, enkeltmenenske)",
+                        "label": "Person",
+                        "name": "PERSON"
+                    },
+                    "label": "Personidentifikator",
+                    "name": "PERSONID_1",
+                    "representedVariables": [
+                        {
+                            "description": "Identifikator for person i RAIRD",
+                            "validPeriod": {
+                                "start": 8004,
+                                "stop": 18230
+                            },
+                            "valueDomain": {
+                                "description": "N/A",
+                                "unitOfMeasure": "N/A"
+                            }
+                        }
+                    ],
+                    "variableRole": "Identifier"
+                }
+            ],
+            "languageCode": "no",
+            "measureVariable": {
+                "dataType": "String",
+                "label": "Grunnst\u00f8nad fra folketrygden, mottak",
+                "name": "GRUNNSTFDT_MOTTAK",
+                "representedVariables": [
+                    {
+                        "description": "Datering av mottaksperiode",
+                        "validPeriod": {
+                            "start": 0
+                        },
+                        "valueDomain": {
+                            "codeList": [
+                                {
+                                    "category": "Mottar st\u00f8nad/ytelse",
+                                    "code": "1"
+                                }
+                            ],
+                            "missingValues": []
+                        }
+                    }
+                ],
+                "variableRole": "Measure"
+            },
+            "name": "GRUNNSTFDT_MOTTAK",
+            "populationDescription": "Hovedsakelig bosatte i Norge (fnr), men noen ikke-bosatte kan inng\u00e5 (dnr)",
+            "subjectFields": [
+                "Sosiale forhold og kriminalitet",
+                "Trygd og st\u00f8nad"
+            ],
+            "temporalCoverage": {
+                "start": 8004,
+                "stop": 18230
+            },
+            "temporality": "FIXED"
+        },
+        {
+            "attributeVariables": [
+                {
+                    "dataType": "Instant",
+                    "label": "Stoppdato",
+                    "name": "STOP",
+                    "representedVariables": [
+                        {
+                            "description": "Stoppdato/sluttdato for hendelsen",
+                            "validPeriod": {
+                                "start": 8401,
+                                "stop": 17896
+                            },
+                            "valueDomain": {
+                                "description": "N/A",
+                                "unitOfMeasure": "N/A"
+                            }
+                        }
+                    ],
+                    "variableRole": "Stop"
+                },
+                {
+                    "dataType": "Instant",
+                    "label": "Startdato",
+                    "name": "START",
+                    "representedVariables": [
+                        {
+                            "description": "Startdato/m\u00e5letidspunktet for hendelsen",
+                            "validPeriod": {
+                                "start": 8401,
+                                "stop": 17896
+                            },
+                            "valueDomain": {
+                                "description": "N/A",
+                                "unitOfMeasure": "N/A"
+                            }
+                        }
+                    ],
+                    "variableRole": "Start"
+                }
+            ],
+            "identifierVariables": [
+                {
+                    "dataType": "Long",
+                    "format": "RandomUInt48",
+                    "keyType": {
+                        "description": "Statistisk enhet er person (individ, enkeltmenenske)",
+                        "label": "Person",
+                        "name": "PERSON"
+                    },
+                    "label": "Personidentifikator",
+                    "name": "PERSONID_1",
+                    "representedVariables": [
+                        {
+                            "description": "Identifikator for person i RAIRD",
+                            "validPeriod": {
+                                "start": 8401,
+                                "stop": 17896
+                            },
+                            "valueDomain": {
+                                "description": "N/A",
+                                "unitOfMeasure": "N/A"
+                            }
+                        }
+                    ],
+                    "variableRole": "Identifier"
+                }
+            ],
+            "languageCode": "no",
+            "measureVariable": {
+                "dataType": "Long",
+                "label": "Inntekt etter skatt",
+                "name": "TEST_PERSON_INCOME",
+                "representedVariables": [
+                    {
+                        "description": "Yrkesinntekter, kapitalinntekter, skattepliktige og skattefrie overf\u00f8ringer, i l\u00f8pet av kalender\u00e5ret. Utlignet skatt og negative overf\u00f8ringer er trukket i fra.\n Variabelen omfatter bosatte per 31.12.\u00c5\u00c5\u00c5\u00c5. Personer med verdiene 0 og uoppgitt (missing) er utelatt.",
+                        "validPeriod": {
+                            "start": 8401,
+                            "stop": 17896
+                        },
+                        "valueDomain": {
+                            "description": "NOK",
+                            "unitOfMeasure": "NOK"
+                        }
+                    }
+                ],
+                "variableRole": "Measure"
+            },
+            "name": "TEST_PERSON_INCOME",
+            "populationDescription": "Bosatte i Norge",
+            "subjectFields": [
+                "Inntekt og forbruk",
+                "Inntekt og formue"
+            ],
+            "temporalCoverage": {
+                "start": 8401,
+                "stop": 17896
+            },
+            "temporality": "STATUS"
+        },
+        {
+            "attributeVariables": [
+                {
+                    "dataType": "Instant",
+                    "label": "Stoppdato",
+                    "name": "STOP",
+                    "representedVariables": [
+                        {
+                            "description": "Stoppdato/sluttdato for hendelsen",
+                            "validPeriod": {
+                                "start": 8401,
+                                "stop": 17531
+                            },
+                            "valueDomain": {
+                                "description": "N/A",
+                                "unitOfMeasure": "N/A"
+                            }
+                        }
+                    ],
+                    "variableRole": "Stop"
+                },
+                {
+                    "dataType": "Instant",
+                    "label": "Startdato",
+                    "name": "START",
+                    "representedVariables": [
+                        {
+                            "description": "Startdato/m\u00e5letidspunktet for hendelsen",
+                            "validPeriod": {
+                                "start": 8401,
+                                "stop": 17531
+                            },
+                            "valueDomain": {
+                                "description": "N/A",
+                                "unitOfMeasure": "N/A"
+                            }
+                        }
+                    ],
+                    "variableRole": "Start"
+                }
+            ],
+            "identifierVariables": [
+                {
+                    "dataType": "Long",
+                    "format": "RandomUInt48",
+                    "keyType": {
+                        "description": "Statistisk enhet er person (individ, enkeltmenenske)",
+                        "label": "Person",
+                        "name": "PERSON"
+                    },
+                    "label": "Personidentifikator",
+                    "name": "PERSONID_1",
+                    "representedVariables": [
+                        {
+                            "description": "Identifikator for person i RAIRD",
+                            "validPeriod": {
+                                "start": 8401,
+                                "stop": 17531
+                            },
+                            "valueDomain": {
+                                "description": "N/A",
+                                "unitOfMeasure": "N/A"
+                            }
+                        }
+                    ],
+                    "variableRole": "Identifier"
+                }
+            ],
+            "languageCode": "no",
+            "measureVariable": {
+                "dataType": "Double",
+                "label": "Samlet inntekt",
+                "name": "TEST_PERSON_PETS",
+                "representedVariables": [
+                    {
+                        "description": "Yrkesinntekt, kapitalinntekt, skattepliktige og skattefrie overf\u00f8ringer mottatt i l\u00f8pet av kalender\u00e5ret. Negative bel\u00f8p kan forekomme.\n Variabelen omfatter bosatte per 31.12.\u00c5\u00c5\u00c5\u00c5. Personer med verdiene 0 og uoppgitt (missing) er utelatt.",
+                        "validPeriod": {
+                            "start": 8401,
+                            "stop": 17531
+                        },
+                        "valueDomain": {
+                            "description": "NOK",
+                            "unitOfMeasure": "NOK"
+                        }
+                    }
+                ],
+                "variableRole": "Measure"
+            },
+            "name": "TEST_PERSON_PETS",
+            "populationDescription": "Bosatte i Norge",
+            "subjectFields": [
+                "Inntekt og forbruk",
+                "Inntekt og formue"
+            ],
+            "temporalCoverage": {
+                "start": 8401,
+                "stop": 17531
+            },
+            "temporality": "ACCUMULATED"
+        }
+    ]
+}

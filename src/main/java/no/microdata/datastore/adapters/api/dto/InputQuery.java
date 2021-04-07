@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static no.microdata.datastore.transformations.Utils.*;
+import static no.microdata.datastore.adapters.api.ErrorMessage.*;
 
 public abstract class InputQuery {
 
@@ -27,12 +28,12 @@ public abstract class InputQuery {
     boolean validate() {
         if (!credentials.isValid())
             throw new UnauthorizedException(Credentials.ERROR_MESSAGE);
-        if (isNullOrEmpty(dataStructureName))
-            throw  new BadRequestException(no.microdata.datastore.adapters.api.ErrorMessage.requestValidationError(no.microdata.datastore.adapters.api.ErrorMessage.INPUT_FIELD_DATASTRUCTURE_NAME));
-        if (isNullOrEmpty(version))
-            throw  new BadRequestException(no.microdata.datastore.adapters.api.ErrorMessage.requestValidationError(no.microdata.datastore.adapters.api.ErrorMessage.INPUT_FIELD_VERSION));
+        if (isNullOrEmptyOrNegative(dataStructureName))
+            throw  new BadRequestException(requestValidationError(INPUT_FIELD_DATASTRUCTURE_NAME));
+        if (isNullOrEmptyOrNegative(version))
+            throw  new BadRequestException(requestValidationError(INPUT_FIELD_VERSION));
         if ( ! isSemanticVersion(version))
-            throw new BadRequestException(no.microdata.datastore.adapters.api.ErrorMessage.versionValidationError(version));
+            throw new BadRequestException(versionValidationError(version));
         return true;
     }
 

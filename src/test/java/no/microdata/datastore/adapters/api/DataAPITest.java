@@ -85,7 +85,7 @@ public class DataAPITest {
     public void testGetEvent() throws Exception{
 
         List populationFilter = List.of(1, 2, 2, 3, 4);
-        Map expectedEvent = DataAPITestFixture.datastructureFnr();
+        Map expected = DataAPITestFixture.datastructureFnr();
 
         long startDate = 1345;
         long endDate = 2456;
@@ -111,7 +111,7 @@ public class DataAPITest {
                         "datastructureVersion", DATASTRUCTURE_VERSION)
         );
 
-        when(dataService.getEvent(any(), any())).thenReturn(expectedEvent);
+        when(dataService.getEvent(any(), any())).thenReturn(expected);
 
         mockMvc.perform(RestDocumentationRequestBuilders.post("/data/data-structure/event")
                     .contentType(MediaType.APPLICATION_JSON)
@@ -122,7 +122,7 @@ public class DataAPITest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(CONTENT_TYPE_JSON))
-                .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedEvent)))
+                .andExpect(content().json(new ObjectMapper().writeValueAsString(expected)))
                 .andDo(document("getEvent-request", Preprocessors.preprocessRequest(maskPassword())))
                 .andDo(document("getEvent",
                         Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
@@ -151,7 +151,7 @@ public class DataAPITest {
     public void testGetStatus() throws Exception{
 
         List populationFilter = List.of(1, 2, 2, 3, 4);
-        Map expectedEvent = DataAPITestFixture.datastructureFnr();
+        Map expected = DataAPITestFixture.datastructureFnr();
         Long date = Long.valueOf(14579);
 
         Set<String> valueFilter = Stream.of("1","2","45","3","4").collect(Collectors.toCollection(HashSet::new));
@@ -174,7 +174,7 @@ public class DataAPITest {
                         "datastructureVersion", DATASTRUCTURE_VERSION)
         );
 
-        when(dataService.getStatus(any(), any())).thenReturn(expectedEvent);
+        when(dataService.getStatus(any(), any())).thenReturn(expected);
 
         mockMvc.perform(RestDocumentationRequestBuilders.post("/data/data-structure/status")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -185,7 +185,7 @@ public class DataAPITest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(CONTENT_TYPE_JSON))
-                .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedEvent)))
+                .andExpect(content().json(new ObjectMapper().writeValueAsString(expected)))
                 .andDo(document("getStatus-request", Preprocessors.preprocessRequest(maskPassword())))
                 .andDo(document("getStatus",
                         Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
@@ -213,7 +213,7 @@ public class DataAPITest {
     public void testGetFixed() throws Exception{
 
         List populationFilter = List.of(1, 2, 2, 3, 4);
-        Map expectedEvent = DataAPITestFixture.datastructureFnr();
+        Map expected = DataAPITestFixture.datastructureFnr();
 
         Set<String> valueFilter = Stream.of("1","2","45","3","4")
                 .collect(Collectors.toCollection(HashSet::new));
@@ -234,7 +234,7 @@ public class DataAPITest {
                         "datastructureVersion", DATASTRUCTURE_VERSION)
         );
 
-        when(dataService.getFixed(any(), any())).thenReturn(expectedEvent);
+        when(dataService.getFixed(any(), any())).thenReturn(expected);
 
         mockMvc.perform(RestDocumentationRequestBuilders.post("/data/data-structure/fixed")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -245,7 +245,7 @@ public class DataAPITest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(CONTENT_TYPE_JSON))
-                .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedEvent)))
+                .andExpect(content().json(new ObjectMapper().writeValueAsString(expected)))
                 .andDo(document("getFixed-request", Preprocessors.preprocessRequest(maskPassword())))
                 .andDo(document("getFixed",
                         Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),

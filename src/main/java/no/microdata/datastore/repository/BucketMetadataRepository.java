@@ -72,11 +72,14 @@ public class BucketMetadataRepository implements MetadataRepository{
     }
 
     private void downloadFromBucket(String file, String destFile) {
-        Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
-
-        Blob blob = storage.get(BlobId.of(bucketName, file));
-        blob.downloadTo(Paths.get(destFile));
-
+        try {
+            Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
+            Blob blob = storage.get(BlobId.of(bucketName, file));
+            blob.downloadTo(Paths.get(destFile));
+        }catch (Exception e){
+            log.error("Unable to download {} from bucket {} to {}", file, bucketName, destFile);
+            throw e;
+        }
         log.info("Downloaded {} from bucket {} to {}", file, bucketName, destFile);
     }
 }

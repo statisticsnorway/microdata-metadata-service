@@ -1,6 +1,5 @@
 package no.microdata.datastore.adapters.api.dto;
 
-import no.microdata.datastore.adapters.api.ErrorMessage;
 import no.microdata.datastore.exceptions.BadRequestException;
 import no.microdata.datastore.exceptions.MicrodataException;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +10,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 
+import static no.microdata.datastore.adapters.api.ErrorMessage.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class InputTimeQueryTest {
@@ -48,8 +48,7 @@ public class InputTimeQueryTest {
             inputQuery.validate();
         });
 
-        String expected = MicrodataException.toJsonString(
-                ErrorMessage.requestValidationError(ErrorMessage.INPUT_FIELD_DATASTRUCTURE_NAME));
+        String expected = MicrodataException.toJsonString(requestValidationError(INPUT_FIELD_DATASTRUCTURE_NAME));
         assertEquals(expected, exceptionThatWasThrown.getMessage());
     }
 
@@ -65,8 +64,7 @@ public class InputTimeQueryTest {
             inputQuery.validate();
         });
 
-        String expected = MicrodataException.toJsonString(
-                ErrorMessage.requestValidationError(ErrorMessage.INPUT_FIELD_START_DATE));
+        String expected = MicrodataException.toJsonString(requestValidationError(INPUT_FIELD_START_DATE));
         assertEquals(expected, exceptionThatWasThrown.getMessage());
     }
 
@@ -83,7 +81,7 @@ public class InputTimeQueryTest {
             inputQuery.validate();
         });
 
-        String expected = MicrodataException.toJsonString(ErrorMessage.versionValidationError("1.1.0"));
+        String expected = MicrodataException.toJsonString(versionValidationError("1.1.0"));
         assertEquals(expected, exceptionThatWasThrown.getMessage());
     }
 
