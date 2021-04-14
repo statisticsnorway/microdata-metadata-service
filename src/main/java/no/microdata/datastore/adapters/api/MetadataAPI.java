@@ -53,6 +53,7 @@ class MetadataAPI {
                     put("languages", joinToString(languages));
                     put("requestId", verifyAndUpdateRequestId(requestId));
                     put("version", VersionUtils.toThreeLabelsIfNotDraft(version));
+                    put("includeAttributes",true);
                 }});
 
         log.info("Entering getDataStructures() where query = {}", query);
@@ -74,6 +75,7 @@ class MetadataAPI {
                     put("languages", joinToString(languages));
                     put("requestId", verifyAndUpdateRequestId(requestId));
                     put("version", VersionUtils.toThreeLabelsIfNotDraft(version));
+                    put("includeAttributes",true);
                 }});
 
         log.info("Entering getAllMetadata() where query = {}", query);
