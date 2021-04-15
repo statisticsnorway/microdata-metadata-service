@@ -38,12 +38,20 @@ public class DataServiceClientRepository implements DataServiceRepository {
 
     @Override
     public Map<String, String> findByTime(StatusQuery query) {
-        throw new RuntimeException("Not implemented!");
+        // Until matching endpoint in data service is available
+        return Map.of(
+                "name", query.getDatasetRevision().getDatasetName(),
+                "dataUrl", "http://127.0.0.1:8000/retrieveResultSet?file_name=DUMMY.parquet"
+        );
     }
 
     @Override
     public Map<String, String> findByFixed(FixedQuery query) {
-        throw new RuntimeException("Not implemented!");
+        // Until matching endpoint in data service is available
+        return Map.of(
+                "name", query.getDatasetRevision().getDatasetName(),
+                "dataUrl", "http://127.0.0.1:8000/retrieveResultSet?file_name=DUMMY.parquet"
+        );
     }
 
     @Override
@@ -57,8 +65,7 @@ public class DataServiceClientRepository implements DataServiceRepository {
                 )
         );
         HttpResponse<String> response = getHttpResponse(json, eventURL);
-
-        System.out.println(response.body());
+        log.debug(response.body());
 
         return new Gson().fromJson(response.body(), Map.class);
     }
