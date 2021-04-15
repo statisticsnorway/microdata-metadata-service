@@ -7,7 +7,7 @@ import java.util.StringJoiner;
 public class StatusQuery {
 
     DatasetRevision datasetRevision;
-    LocalDate date;
+    long date;
     String requestId;
     UnitIdFilter unitIdFilter;
     IntervalFilter intervalFilter;
@@ -18,7 +18,7 @@ public class StatusQuery {
 
         if(!hasRequiredFields(
                 (DatasetRevision)inputFields.get("datasetRevision"),
-                (LocalDate)inputFields.get("date"))) {
+                (long)inputFields.get("date"))) {
             throw new AssertionError(
                     String.format(
                             "Missing required field. Fields datasetRevision = %s, date = %s",
@@ -26,7 +26,7 @@ public class StatusQuery {
         }
 
         datasetRevision = (DatasetRevision)inputFields.get("datasetRevision");
-        date = (LocalDate)inputFields.get("date");
+        date = (long)inputFields.get("date");
         requestId = (String)inputFields.get("requestId");
         intervalFilter = (IntervalFilter)inputFields.getOrDefault("intervalFilter", IntervalFilter.fullIntervalInstance());
         unitIdFilter = (UnitIdFilter)inputFields.getOrDefault("unitIdFilter", UnitIdFilter.noFilterInstance());
@@ -34,7 +34,7 @@ public class StatusQuery {
         includeAttributes = (Boolean)inputFields.getOrDefault("includeAttributes", false);
     }
 
-    private boolean hasRequiredFields(DatasetRevision datasetRevision, LocalDate date) {
+    private boolean hasRequiredFields(DatasetRevision datasetRevision, Long date) {
         return datasetRevision != null && date != null;
     }
 
@@ -62,7 +62,7 @@ public class StatusQuery {
         return valueFilter;
     }
 
-    public LocalDate getDate() {
+    public long getDate() {
         return date;
     }
 

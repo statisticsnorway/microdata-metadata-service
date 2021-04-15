@@ -1,6 +1,5 @@
 package no.microdata.datastore.model;
 
-
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -37,7 +36,7 @@ public class MetadataQuery {
         this.version = "1.0.0.0";
         this.requestId = (String) inputFields.get("requestId");
         this.languages = (String) inputFields.get("languages");
-        this.includeAttributes = (Boolean)inputFields.get("includeAttributes");
+        this.includeAttributes = (Boolean)inputFields.getOrDefault("includeAttributes", false);
     }
 
     private boolean hasRequiredField(String field) {

@@ -152,7 +152,7 @@ public class DataAPITest {
 
         List populationFilter = List.of(1, 2, 2, 3, 4);
         Map expected = DataAPITestFixture.datastructureFnr();
-        Long date = Long.valueOf(14579);
+        long date = 14579;
 
         Set<String> valueFilter = Stream.of("1","2","45","3","4").collect(Collectors.toCollection(HashSet::new));
 
