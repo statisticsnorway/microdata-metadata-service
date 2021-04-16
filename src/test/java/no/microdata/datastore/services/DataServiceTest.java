@@ -55,7 +55,7 @@ public class DataServiceTest {
                         "includeAttributes", true);
         MetadataQuery metadataQuery = new MetadataQuery(metadataQueryParms);
 
-        when(metadataService.getDataStructure(metadataQuery)).thenReturn(DataServiceTestFixture.DATASTRUCTURE());
+        when(metadataService.getDataStructure(metadataQuery)).thenReturn(DataServiceTestFixture.datastructure());
         when(dataServiceRepository.findByTimePeriod(dataQuery)).thenReturn(DataServiceTestFixture.RESPONSE_FROM_DATASERVICE());
 
         Map actualDataStructure = dataService.getEvent(metadataQuery, dataQuery);
@@ -79,7 +79,7 @@ public class DataServiceTest {
                         "includeAttributes", true);
         MetadataQuery metadataQuery = new MetadataQuery(metadataQueryParms);
 
-        when(metadataService.getDataStructure(metadataQuery)).thenReturn(DataServiceTestFixture.DATASTRUCTURE());
+        when(metadataService.getDataStructure(metadataQuery)).thenReturn(DataServiceTestFixture.datastructure());
         when(dataServiceRepository.findByTime(dataQuery)).thenReturn(DataServiceTestFixture.RESPONSE_FROM_DATASERVICE());
 
         Map actualDataStructure = dataService.getStatus(metadataQuery, dataQuery);
@@ -102,7 +102,7 @@ public class DataServiceTest {
                         "includeAttributes", true);
         MetadataQuery metadataQuery = new MetadataQuery(metadataQueryParms);
 
-        when(metadataService.getDataStructure(metadataQuery)).thenReturn(DataServiceTestFixture.DATASTRUCTURE());
+        when(metadataService.getDataStructure(metadataQuery)).thenReturn(DataServiceTestFixture.datastructure());
         when(dataServiceRepository.findByFixed(dataQuery)).thenReturn(DataServiceTestFixture.RESPONSE_FROM_DATASERVICE());
 
         Map actualDataStructure = dataService.getFixed(metadataQuery, dataQuery);
