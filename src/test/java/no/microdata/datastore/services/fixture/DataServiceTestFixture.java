@@ -1,7 +1,6 @@
 package no.microdata.datastore.services.fixture;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.List;
 import java.util.Map;
 
 public class DataServiceTestFixture {
@@ -25,10 +24,7 @@ public class DataServiceTestFixture {
 
     public static final Map<String, String> EXPECTED_RESPONSE() throws Exception {
         Map response = datastructure();
-        ((Map)((List)response.get("attributeVariables")).get(0)).put("datums", "http://127.0.0.1:8000/retrieveResultSet?file_name=DUMMY.parquet");
-        ((Map)((List)response.get("attributeVariables")).get(1)).put("datums", "http://127.0.0.1:8000/retrieveResultSet?file_name=DUMMY.parquet");
-        ((Map)((List)response.get("identifierVariables")).get(0)).put("datums", "http://127.0.0.1:8000/retrieveResultSet?file_name=DUMMY.parquet");
-        ((Map)response.get("measureVariable")).put("datums", "http://127.0.0.1:8000/retrieveResultSet?file_name=DUMMY.parquet");
+        response.put("dataUrl", "http://127.0.0.1:8000/retrieveResultSet?file_name=DUMMY.parquet");
         return response;
     }
 
@@ -40,8 +36,7 @@ public class DataServiceTestFixture {
 
     public static Map EXPECTED_RESPONSE_NO_ATTRS() throws Exception {
         Map response = DATASTRUCTURE_NO_ATTRS();
-        ((Map)((List)response.get("identifierVariables")).get(0)).put("datums", "http://127.0.0.1:8000/retrieveResultSet?file_name=DUMMY.parquet");
-        ((Map)response.get("measureVariable")).put("datums", "http://127.0.0.1:8000/retrieveResultSet?file_name=DUMMY.parquet");
+        response.put("dataUrl", "http://127.0.0.1:8000/retrieveResultSet?file_name=DUMMY.parquet");
         return response;
     }
 
@@ -215,6 +210,4 @@ public class DataServiceTestFixture {
         "languageCode": "no"
     }
     """;
-
-
 }

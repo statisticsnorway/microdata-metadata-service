@@ -45,8 +45,7 @@ class DataServiceImpl implements DataService {
         log.info("Call to repository.findByTimePeriod consumed {} miliseconds.",
                     thirdTimer.stop().elapsed(TimeUnit.MILLISECONDS));
 
-        Map dataStructure = DataMappingFunctions.addDataUrlToDataStructure(dataStructures, resultSetIdentifier,
-                eventQuery.getIncludeAttributes());
+        Map dataStructure = DataMappingFunctions.addDataUrlToDataStructure(dataStructures, resultSetIdentifier);
 
         log.debug("Found datastructure with name = {} and URL {}", resultSetIdentifier.get("name"),
                                                                     resultSetIdentifier.get("dataUrl"));
@@ -71,8 +70,7 @@ class DataServiceImpl implements DataService {
         log.info("Call to repository.findByTime consumed {} miliseconds.",
                 thirdTimer.stop().elapsed(TimeUnit.MILLISECONDS));
 
-        Map dataStructure = DataMappingFunctions.addDataUrlToDataStructure(dataStructures, resultSetIdentifier,
-                statusQuery.getIncludeAttributes());
+        Map dataStructure = DataMappingFunctions.addDataUrlToDataStructure(dataStructures, resultSetIdentifier);
 
         log.debug("Found datastructure with name = {} and URL {}", resultSetIdentifier.get("name"),
                 resultSetIdentifier.get("dataUrl"));
@@ -96,8 +94,7 @@ class DataServiceImpl implements DataService {
         Map<String, String> resultSetIdentifier = repository.findByFixed(fixedQuery);
         log.info("Call to repository.findByFixed consumed {} miliseconds.", thirdTimer.stop().elapsed(TimeUnit.MILLISECONDS));
 
-        Map dataStructure = DataMappingFunctions.addDataUrlToDataStructure(dataStructures, resultSetIdentifier,
-                fixedQuery.getIncludeAttributes());
+        Map dataStructure = DataMappingFunctions.addDataUrlToDataStructure(dataStructures, resultSetIdentifier);
 
         log.debug("Found datastructure with name = {} and URL {}", resultSetIdentifier.get("name"),
                 resultSetIdentifier.get("dataUrl"));
