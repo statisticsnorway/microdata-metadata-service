@@ -26,7 +26,6 @@ public class MetadataQuery {
             this.names = (List<String>) inputFields.get("names");
         } else if (inputFields.get("names") instanceof String){
             String [] names = ((String)inputFields.get("names")).split(",");
-
             this.names = Stream.of(names).map(String::strip).collect(Collectors.toList());
         } else {
             this.names = List.of();
