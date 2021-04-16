@@ -137,7 +137,7 @@ class DataAPI {
             StatusQuery statusQuery = new StatusQuery(
                     new HashMap() {{
                         put("datasetRevision", datasetRevision);
-                        put("date", LocalDate.ofEpochDay(dateValue));
+                        put("date", dateValue);
                         put("requestId", finalRequestId1);
                         put("valueFilter", createValueFilter(inputTimeQuery));
                         put("unitIdFilter",  createUnitIdFilter(inputTimeQuery));

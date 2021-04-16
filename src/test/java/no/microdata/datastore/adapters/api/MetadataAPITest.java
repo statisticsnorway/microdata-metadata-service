@@ -109,7 +109,8 @@ class MetadataAPITest {
                 "names", List.of("FNR", "AKT_ARBAP"),
                 "languages", "no",
                 "requestId", "56",
-                "version", VersionUtils.toThreeLabelsIfNotDraft(requestVersion)
+                "version", VersionUtils.toThreeLabelsIfNotDraft(requestVersion),
+                "includeAttributes",true
         ));
         var names = "FNR,AKT_ARBAP";
 
@@ -151,8 +152,9 @@ class MetadataAPITest {
         MetadataQuery query = new MetadataQuery(Map.of(
                 "languages", "no",
                 "requestId", "56",
-                "version", VersionUtils.toThreeLabelsIfNotDraft(requestVersion))
-        );
+                "version", VersionUtils.toThreeLabelsIfNotDraft(requestVersion),
+                "includeAttributes",true
+        ));
 
         when(metadataService.findAllMetadata(query)).thenReturn(expectedAllMetadata);
 
@@ -194,8 +196,9 @@ class MetadataAPITest {
                 "names", List.of("FNR", "AKT_ARBAP"),
                 "languages", "no",
                 "requestId", "56",
-                "version", VersionUtils.toThreeLabelsIfNotDraft(requestVersion))
-        );
+                "version", VersionUtils.toThreeLabelsIfNotDraft(requestVersion),
+                "includeAttributes",true
+        ));
 
         when(metadataService.findDataStructures(query)).thenReturn(expectedDataStructures);
         var names = "FNR,AKT_ARBAP";

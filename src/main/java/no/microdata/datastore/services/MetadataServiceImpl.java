@@ -43,7 +43,7 @@ public class MetadataServiceImpl implements MetadataService {
         List<Map<String, Object>> found = new ArrayList<>();
 
         for (Map<String, Object> dataset: datasets) {
-            if (Objects.equals(query.getNames().get(0), dataset.get("name"))) {
+            if (query.getNames().contains(dataset.get("name"))) {
                 if ( ! query.getIncludeAttributes() ){
                     dataset.remove("attributeVariables");
                 }
@@ -58,7 +58,7 @@ public class MetadataServiceImpl implements MetadataService {
         log.warn("MVP1 implementation - hardcoded!");
         return Map.of(
                 "datastructureName", query.dataStructureName(),
-                "datastructureVersion", "1.0.0.0"
+                "datastructureVersion", query.dataStoreVersion()
         );
     }
 

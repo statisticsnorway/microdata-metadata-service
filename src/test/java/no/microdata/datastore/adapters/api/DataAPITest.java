@@ -29,7 +29,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -152,7 +151,7 @@ public class DataAPITest {
 
         List populationFilter = List.of(1, 2, 2, 3, 4);
         Map expected = DataAPITestFixture.datastructureFnr();
-        Long date = Long.valueOf(14579);
+        long date = 14579;
 
         Set<String> valueFilter = Stream.of("1","2","45","3","4").collect(Collectors.toCollection(HashSet::new));
 

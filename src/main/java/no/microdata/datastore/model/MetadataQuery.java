@@ -1,6 +1,5 @@
 package no.microdata.datastore.model;
 
-
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -27,7 +26,6 @@ public class MetadataQuery {
             this.names = (List<String>) inputFields.get("names");
         } else if (inputFields.get("names") instanceof String){
             String [] names = ((String)inputFields.get("names")).split(",");
-
             this.names = Stream.of(names).map(String::strip).collect(Collectors.toList());
         } else {
             this.names = List.of();
@@ -37,7 +35,7 @@ public class MetadataQuery {
         this.version = "1.0.0.0";
         this.requestId = (String) inputFields.get("requestId");
         this.languages = (String) inputFields.get("languages");
-        this.includeAttributes = (Boolean)inputFields.get("includeAttributes");
+        this.includeAttributes = (Boolean)inputFields.getOrDefault("includeAttributes", false);
     }
 
     private boolean hasRequiredField(String field) {
