@@ -15,13 +15,13 @@ bucket:
   files:
     metadata-all:
       downloadFile: ${bucket.datastore}/metadata/metadata-all__1_0_0.json
-      destFile: metadata-all.json
+      destFile: metadata_files/metadata-all.json
     data-store:
       downloadFile: ${bucket.datastore}/metadata/datastore.json
-      destFile: datastore.json
+      destFile: metadata_files/datastore.json
     versions:
       downloadFile: ${bucket.datastore}/metadata/versions.json
-      destFile: versions.json
+      destFile: metadata_files/versions.json
 ---
 info:
   version: @APPLICATION_VERSION@
