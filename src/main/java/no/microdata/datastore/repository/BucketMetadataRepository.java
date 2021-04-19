@@ -8,6 +8,7 @@ import com.google.cloud.storage.StorageOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 @Repository
+@ConditionalOnProperty(name = "download.from.bucket", havingValue = "true")
 public class BucketMetadataRepository implements MetadataRepository{
 
     private final static Logger log = LoggerFactory.getLogger(BucketMetadataRepository.class);
@@ -60,6 +62,7 @@ public class BucketMetadataRepository implements MetadataRepository{
     }
 
     private Map getFileAsMap(String file, String destFile) {
+        log.info("getFileAsMap {} {}", file, destFile);
         downloadFromBucket(file, destFile);
         Map result;
         try {
@@ -72,6 +75,7 @@ public class BucketMetadataRepository implements MetadataRepository{
     }
 
     private void downloadFromBucket(String file, String destFile) {
+        log.info("Attempts to download {} from bucket {} to {}", file, bucketName, destFile);
         try {
             Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
             Blob blob = storage.get(BlobId.of(bucketName, file));

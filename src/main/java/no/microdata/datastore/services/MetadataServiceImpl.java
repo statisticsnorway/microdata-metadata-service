@@ -7,13 +7,11 @@ import no.microdata.datastore.repository.MetadataRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Service
 public class MetadataServiceImpl implements MetadataService {
@@ -21,7 +19,6 @@ public class MetadataServiceImpl implements MetadataService {
     private final static Logger log = LoggerFactory.getLogger(MetadataServiceImpl.class);
 
     @Autowired
-    @Qualifier("bucketMetadataRepository")
     MetadataRepository metadataRepository;
 
     @Override
