@@ -62,7 +62,6 @@ public class BucketMetadataRepository implements MetadataRepository{
     }
 
     private Map getFileAsMap(String file, String destFile) {
-        log.info("getFileAsMap {} {}", file, destFile);
         downloadFromBucket(file, destFile);
         Map result;
         try {
