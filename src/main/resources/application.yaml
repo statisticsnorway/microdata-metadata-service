@@ -8,6 +8,13 @@ dataservice:
     event: ${dataservice.url}/data/event
     fixed: ${dataservice.url}/data/fixed
 ---
+download.from.bucket: false
+---
+storage:
+  metadata-all: json/metadata-all.json
+  data-store: json/datastore.json
+  versions: json/versions.json
+---
 bucket:
   projectId: ssb-team-microdata-staging
   bucketName: data-service-bucket-microdata-poc
