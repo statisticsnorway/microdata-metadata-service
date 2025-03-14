@@ -1,56 +1,29 @@
-# Export Poetry Packages
-FROM python:3.12-bookworm AS builder
+ARG RUST_VERSION=1.80.0
+ARG APP_NAME=metadata-service
 
-ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1 \
-    POETRY_VERSION=1.7.1 \
-    POETRY_HOME="/opt/poetry" \
-    POETRY_VIRTUALENVS_IN_PROJECT=true \
-    POETRY_NO_INTERACTION=1
-
-# Prepend poetry to path
-ENV PATH="$POETRY_HOME/bin:$PATH"
-
-# Install tools
-RUN apt-get update \
-    && apt-get install -y  --no-install-recommends \
-    ca-certificates \
-    curl \
-    build-essential \
-    python3-distutils \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-RUN pip install --upgrade pip
-
+FROM rust:${RUST_VERSION}-alpine AS build
+ARG APP_NAME
 WORKDIR /app
-COPY poetry.lock pyproject.toml /app/
+
+RUN apk add --no-cache clang lld musl-dev git binutils
+COPY Cargo.toml ./
+COPY src ./src
+RUN cargo build --release && \
+cp ./target/release/$APP_NAME /bin/server && \
+strip /bin/server
 
 # Create user
 RUN groupadd --gid 180291 microdata \
     && useradd --uid 180291 --gid microdata microdata
 
-# Install poetry and export dep endencies to requirements yaml
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN curl --proto '=https' --tlsv1.2 -sSL https://install.python-poetry.org | python3 - --version "$POETRY_VERSION"
-RUN poetry export > requirements.txt
-
-RUN pip install -r requirements.txt --target=/app/dependencies
-
-# Production image
-FROM ghcr.io/statisticsnorway/distroless-python3.12
+FROM gcr.io/distroless/static-debian12
 ARG COMMIT_ID
 ENV COMMIT_ID=$COMMIT_ID
 
-WORKDIR /app
-COPY metadata_service metadata_service
-COPY --from=builder /app/pyproject.toml pyproject.toml
-COPY --from=builder /app/dependencies /app/dependencies
-COPY --from=builder /etc/passwd /etc/passwd
-COPY --from=builder /etc/group /etc/group
-
-ENV PYTHONPATH "${PYTHONPATH}:/app:/app/dependencies"
-
-# Change user
+COPY --from=build /bin/server /bin/
+COPY --from=build /etc/passwd /etc/passwd
+COPY --from=build /etc/group /etc/group
 USER microdata
 
-CMD ["/app/dependencies/bin/gunicorn", "--logger-class", "metadata_service.config.gunicorn.CustomLogger", "metadata_service.app:app", "--workers", "2", "--limit-request-line", "8190"]
+EXPOSE 3000
+CMD ["/bin/server"]

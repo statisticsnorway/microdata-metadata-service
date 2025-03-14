@@ -6,8 +6,8 @@ metadata:
   description: |
     Service for metadata in the microdata platform
   tags:
-    - python
-    - flask
+    - rust
+    - axum
   annotations:
     github.com/project-slug: statisticsnorway/microdata-metadata-service
 spec:
