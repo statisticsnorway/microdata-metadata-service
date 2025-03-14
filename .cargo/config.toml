@@ -1,0 +1,6 @@
+[env]
+DATASTORE_ROOT_DIR='./tests/resources/test_datastore'
+DOCKER_HOST_NAME='localhost'
+COMMIT_ID='abc123'
+PORT='3000'
+
