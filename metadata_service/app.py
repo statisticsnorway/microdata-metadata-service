@@ -69,6 +69,7 @@ def handle_url_invalid(exc):
         400,
     )
 
+
 @app.errorhandler(BadHost)
 def handle_bad_host(exc):
     logger.warning(exc, exc_info=True)

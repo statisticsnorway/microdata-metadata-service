@@ -141,5 +141,5 @@ def _validate_version(version: Version):
         if draft_version["version"] != version.to_4_dotted():
             raise InvalidDraftVersionException(
                 f"Requested draft version {version}, "
-                f'but current is {draft_version["version"]}'
+                f"but current is {draft_version['version']}"
             )

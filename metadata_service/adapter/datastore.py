@@ -28,7 +28,7 @@ def get_metadata_all(version: Version) -> str:
         file_version = version.to_3_underscored()
 
     metadata_all_file_path = (
-        f"{DATASTORE_ROOT_DIR}/datastore/" f"metadata_all__{file_version}.json"
+        f"{DATASTORE_ROOT_DIR}/datastore/metadata_all__{file_version}.json"
     )
     try:
         with open(metadata_all_file_path, "r", encoding="utf-8") as f:
