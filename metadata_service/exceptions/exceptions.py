@@ -40,5 +40,4 @@ class RequestValidationException(Exception):
         return self.message
 
 
-class InvalidDraftVersionException(Exception):
-    ...
+class InvalidDraftVersionException(Exception): ...

@@ -2,22 +2,22 @@
 name = "metadata-service"
 version = "0.0.1"
 description = ""
-authors = ["microdata developers <microdata-dev@ssb.no>"]
+authors = ["Microdata Developers <microdata-dev@ssb.no>"]
 
 [tool.poetry.dependencies]
 python = "^3.12"
-Flask = "^3.0.2"
-gunicorn = "^22.0.0"
-pydantic = "^2.6.1"
+Flask = "^3.1.0"
+gunicorn = "^23.0.0"
+pydantic = "^2.10.0"
 Flask-Pydantic = "^0.12.0"
 msgpack = "^1.0.4"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.1"
-pytest-cov = "^4.1.0"
+pytest-cov = "^6.0.0"
 pytest-mock = "^3.7.0"
 pytest-dotenv = "^0.5.2"
-ruff = "0.2.0"
+ruff = "0.11.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -25,4 +25,4 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
 line-length = 79
-
+target-version = "py312"
