@@ -1,7 +1,6 @@
 import logging
 
-from flask import Blueprint, jsonify
-from flask_pydantic import validate
+from flask import Blueprint, jsonify, request
 
 from metadata_service.api.request_models import NameParam, MetadataQuery
 from metadata_service.domain import metadata
@@ -12,7 +11,6 @@ metadata_api = Blueprint("metadata_api", __name__)
 
 
 @metadata_api.get("/metadata/data-store")
-@validate()
 def get_data_store():
     logger.info("GET /metadata/data-store")
 
@@ -22,43 +20,48 @@ def get_data_store():
 
 
 @metadata_api.get("/metadata/data-structures/status")
-@validate()
-def get_data_structure_current_status(query: NameParam):
+def get_data_structure_current_status():
+    validated_query = NameParam(**request.args)
     logger.info(
-        f"GET /metadata/data-structures/status with name = {query.names}"
+        f"GET /metadata/data-structures/status with name = {validated_query.names}"
     )
     response = jsonify(
-        metadata.find_current_data_structure_status(query.get_names_as_list())
+        metadata.find_current_data_structure_status(
+            validated_query.get_names_as_list()
+        )
     )
     response.headers.set("content-language", "no")
     return response
 
 
 @metadata_api.post("/metadata/data-structures/status")
-@validate()
-def get_data_structure_current_status_as_post(body: NameParam):
+def get_data_structure_current_status_as_post():
+    validated_body = NameParam(**request.json)
+
     logger.info(
-        f"POST /metadata/data-structures/status with name = {body.names}"
+        f"POST /metadata/data-structures/status with name = {validated_body.names}"
     )
     response = jsonify(
-        metadata.find_current_data_structure_status(body.get_names_as_list())
+        metadata.find_current_data_structure_status(
+            validated_body.get_names_as_list()
+        )
     )
     response.headers.set("content-language", "no")
     return response
 
 
 @metadata_api.get("/metadata/data-structures")
-@validate()
-def get_data_structures(query: MetadataQuery):
-    query.include_attributes = True
-    logger.info(f"GET /metadata/data-structures with query: {query}")
+def get_data_structures():
+    validated_query = MetadataQuery(**request.args)
+    validated_query.include_attributes = True
+    logger.info(f"GET /metadata/data-structures with query: {validated_query}")
 
     response = jsonify(
         metadata.find_data_structures(
-            query.names,
-            Version(query.version),
-            query.include_attributes,
-            query.skip_code_lists,
+            validated_query.names,
+            Version(validated_query.version),
+            validated_query.include_attributes,
+            validated_query.skip_code_lists,
         )
     )
     response.headers.set("content-language", "no")
@@ -66,7 +69,6 @@ def get_data_structures(query: MetadataQuery):
 
 
 @metadata_api.get("/metadata/all-data-structures")
-@validate()
 def get_all_data_structures_ever():
     logger.info("GET /metadata/all-data-structures")
 
@@ -76,13 +78,13 @@ def get_all_data_structures_ever():
 
 
 @metadata_api.get("/metadata/all")
-@validate()
-def get_all_metadata(query: MetadataQuery):
-    logger.info(f"GET /metadata/all with version: {query.version}")
+def get_all_metadata():
+    validated_query = MetadataQuery(**request.args)
+    logger.info(f"GET /metadata/all with version: {validated_query.version}")
 
     response = jsonify(
         metadata.find_all_metadata(
-            Version(query.version), query.skip_code_lists
+            Version(validated_query.version), validated_query.skip_code_lists
         )
     )
     response.headers.set("content-language", "no")
@@ -90,7 +92,6 @@ def get_all_metadata(query: MetadataQuery):
 
 
 @metadata_api.get("/languages")
-@validate()
 def get_languages():
     logger.info("GET /languages")
 
