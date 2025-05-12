@@ -143,6 +143,6 @@ jobs:
               ref: 'master',
               inputs: {
                 environment: "PROD",
-                service: "datastores-info-service"
+                service: "metadata-service"
               }
             })
