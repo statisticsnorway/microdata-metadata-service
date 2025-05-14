@@ -103,10 +103,11 @@ jobs:
               ref: 'main'
             })
 
-
   revoke:
     runs-on: ubuntu-latest
     needs: build
+    permissions:
+      actions: write
     steps:
       - uses: actions/checkout@v4
       - name: Mark older approvals as unnecessary
