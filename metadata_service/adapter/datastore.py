@@ -22,19 +22,30 @@ def get_datastore_versions() -> dict:
         return json.load(f)
 
 
-@lru_cache(maxsize=32)
-def get_metadata_all(version: Version) -> str:
-    if version.is_draft():
-        file_version = "DRAFT"
-    else:
-        file_version = version.to_3_underscored()
+def _get_draft_metadata_all():
+    metadata_all_file_path = (
+        f"{DATASTORE_ROOT_DIR}/datastore/metadata_all__DRAFT.json"
+    )
+    with open(metadata_all_file_path, "r", encoding="utf-8") as f:
+        return json.load(f)
 
+
+@lru_cache(maxsize=32)
+def _get_versioned_metadata_all(version: Version):
+    file_version = version.to_3_underscored()
     metadata_all_file_path = (
         f"{DATASTORE_ROOT_DIR}/datastore/metadata_all__{file_version}.json"
     )
+    with open(metadata_all_file_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def get_metadata_all(version: Version) -> str:
     try:
-        with open(metadata_all_file_path, "r", encoding="utf-8") as f:
-            return json.load(f)
+        if version.is_draft():
+            return _get_draft_metadata_all()
+        else:
+            return _get_versioned_metadata_all(version)
     except FileNotFoundError as e:
         raise DataNotFoundException(
             f"metadata_all for version {version} not found"
