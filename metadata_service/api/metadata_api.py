@@ -4,7 +4,7 @@ from flask import Blueprint, jsonify, request
 
 from metadata_service.api.request_models import NameParam, MetadataQuery
 from metadata_service.domain import metadata
-from metadata_service.domain.version import Version
+from metadata_service.domain.version import get_version_from_string
 
 logger = logging.getLogger()
 metadata_api = Blueprint("metadata_api", __name__)
@@ -59,7 +59,7 @@ def get_data_structures():
     response = jsonify(
         metadata.find_data_structures(
             validated_query.names,
-            Version(validated_query.version),
+            get_version_from_string(validated_query.version),
             validated_query.include_attributes,
             validated_query.skip_code_lists,
         )
@@ -84,7 +84,8 @@ def get_all_metadata():
 
     response = jsonify(
         metadata.find_all_metadata(
-            Version(validated_query.version), validated_query.skip_code_lists
+            get_version_from_string(validated_query.version),
+            validated_query.skip_code_lists,
         )
     )
     response.headers.set("content-language", "no")

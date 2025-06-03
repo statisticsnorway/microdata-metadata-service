@@ -1,19 +1,12 @@
 from dataclasses import dataclass
 
 
-@dataclass
+@dataclass(frozen=True)
 class Version:
     major: str
     minor: str
     patch: str
     draft: str
-
-    def __init__(self, version: str):
-        split = version.split(".")
-        self.major = split[0]
-        self.minor = split[1]
-        self.patch = split[2]
-        self.draft = split[3]
 
     def to_3_underscored(self):
         return "_".join([self.major, self.minor, self.patch])
@@ -26,3 +19,8 @@ class Version:
 
     def __str__(self):
         return ".".join([self.major, self.minor, self.patch, self.draft])
+
+
+def get_version_from_string(version: str):
+    split = version.split(".")
+    return Version(split[0], split[1], split[2], split[3])
