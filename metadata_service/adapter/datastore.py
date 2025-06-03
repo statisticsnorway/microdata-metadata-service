@@ -35,7 +35,7 @@ def get_from_cache(file_version: str) -> dict | None:
 def update_cache(file_version: str, metadata_all):
     global NEWEST_CACHE
     global LAST_REQUEST_CACHE
-    if NEWEST_CACHE[0] == "" or LAST_REQUEST_CACHE == "":
+    if NEWEST_CACHE[0] == "" or LAST_REQUEST_CACHE[0] == "":
         NEWEST_CACHE = (file_version, metadata_all)
         LAST_REQUEST_CACHE = (file_version, metadata_all)
     elif file_version > NEWEST_CACHE[0]:
