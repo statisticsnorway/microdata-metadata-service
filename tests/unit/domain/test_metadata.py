@@ -7,7 +7,7 @@ import pytest
 from metadata_service.adapter import datastore
 from metadata_service.config import environment
 from metadata_service.domain import metadata
-from metadata_service.domain.version import Version, get_version_from_string
+from metadata_service.domain.version import get_version_from_string
 from metadata_service.exceptions.exceptions import (
     InvalidStorageFormatException,
     InvalidDraftVersionException,

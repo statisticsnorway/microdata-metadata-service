@@ -4,7 +4,7 @@ import msgpack
 from flask import url_for, Response
 
 from metadata_service.domain import metadata
-from metadata_service.domain.version import Version, get_version_from_string
+from metadata_service.domain.version import get_version_from_string
 
 MOCKED_DATASTORE_VERSIONS = {
     "name": "SSB-RAIRD",
