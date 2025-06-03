@@ -1,4 +1,5 @@
 import json
+from functools import lru_cache
 
 from metadata_service.config import environment
 from metadata_service.domain.version import Version
@@ -21,6 +22,7 @@ def get_datastore_versions() -> dict:
         return json.load(f)
 
 
+@lru_cache(maxsize=32)
 def get_metadata_all(version: Version) -> str:
     if version.is_draft():
         file_version = "DRAFT"
