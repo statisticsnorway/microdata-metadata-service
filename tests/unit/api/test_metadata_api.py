@@ -4,7 +4,7 @@ import msgpack
 from flask import url_for, Response
 
 from metadata_service.domain import metadata
-from metadata_service.domain.version import Version
+from metadata_service.domain.version import Version, get_version_from_string
 
 MOCKED_DATASTORE_VERSIONS = {
     "name": "SSB-RAIRD",
@@ -168,7 +168,7 @@ def test_get_data_structures(flask_app, mocker):
     )
 
     spy.assert_called_with(
-        ["FNR", "AKT_ARBAP"], Version("3.2.1.0"), True, False
+        ["FNR", "AKT_ARBAP"], get_version_from_string("3.2.1.0"), True, False
     )
     assert response.headers["Content-Type"] == "application/json"
     assert response.json == mocked_data_structures
@@ -194,7 +194,7 @@ def test_get_data_structures_with_messagepack(flask_app, mocker):
         },
     )
     spy.assert_called_with(
-        ["FNR", "AKT_ARBAP"], Version("3.2.1.0"), True, False
+        ["FNR", "AKT_ARBAP"], get_version_from_string("3.2.1.0"), True, False
     )
     assert response.headers["Content-Type"] == "application/x-msgpack"
     assert msgpack.loads(response.data) == mocked_data_structures
@@ -246,7 +246,7 @@ def test_get_all_metadata(flask_app, mocker):
             "Accept": "application/json",
         },
     )
-    spy.assert_called_with(Version("3.2.1.0"), False)
+    spy.assert_called_with(get_version_from_string("3.2.1.0"), False)
     assert response.headers["Content-Type"] == "application/json"
     assert response.json == mocked_metadata_all
 
@@ -276,7 +276,7 @@ def test_get_all_metadata_long_version_numbers(flask_app, mocker):
             "Accept": "application/json",
         },
     )
-    spy.assert_called_with(Version("1234.5678.9012.0"), False)
+    spy.assert_called_with(get_version_from_string("1234.5678.9012.0"), False)
     assert response.headers["Content-Type"] == "application/json"
     assert response.json == mocked_metadata_all
 
@@ -313,7 +313,7 @@ def test_get_all_metadata_skip_code_lists(flask_app, mocker):
             "Accept": "application/json",
         },
     )
-    spy.assert_called_with(Version("3.2.1.0"), True)
+    spy.assert_called_with(get_version_from_string("3.2.1.0"), True)
     assert response.headers["Content-Type"] == "application/json"
     assert response.json == mocked_metadata_all
 
@@ -339,7 +339,7 @@ def test_get_data_structures_skip_code_lists(flask_app, mocker):
         },
     )
     spy.assert_called_with(
-        ["FNR", "AKT_ARBAP"], Version("3.2.1.0"), True, True
+        ["FNR", "AKT_ARBAP"], get_version_from_string("3.2.1.0"), True, True
     )
     assert response.headers["Content-Type"] == "application/json"
     assert response.json == mocked_data_structures
