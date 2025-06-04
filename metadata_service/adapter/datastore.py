@@ -1,4 +1,5 @@
 import json
+import logging
 from functools import lru_cache
 
 from metadata_service.config import environment
@@ -6,6 +7,8 @@ from metadata_service.domain.version import Version
 from metadata_service.exceptions.exceptions import DataNotFoundException
 
 DATASTORE_ROOT_DIR = environment.get("DATASTORE_ROOT_DIR")
+
+logger = logging.getLogger()
 
 
 def get_draft_version() -> dict:
@@ -45,7 +48,12 @@ def get_metadata_all(version: Version) -> str:
         if version.is_draft():
             return _get_draft_metadata_all()
         else:
-            return _get_versioned_metadata_all(version)
+            result = _get_versioned_metadata_all(version)
+            cache_info = _get_versioned_metadata_all.cache_info()
+            logger.info(
+                f"Cache info for versioned metadata: hits={cache_info.hits}, misses={cache_info.misses}, currsize={cache_info.currsize}"
+            )
+            return result
     except FileNotFoundError as e:
         raise DataNotFoundException(
             f"metadata_all for version {version} not found"
