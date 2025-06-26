@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from metadata_service.api.metadata_api import metadata_router
 from metadata_service.api.observability import observability_router
 from metadata_service.config.logging import setup_logging
+from metadata_service.config.uvicorn import setup_uvicorn_logging
 from metadata_service.exceptions.exceptions import (
     DataNotFoundException,
     InvalidStorageFormatException,
@@ -21,6 +22,7 @@ app.include_router(observability_router)
 app.include_router(metadata_router)
 
 setup_logging(app)
+setup_uvicorn_logging()
 
 
 @app.middleware("http")

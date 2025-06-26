@@ -53,4 +53,4 @@ ENV PYTHONPATH "${PYTHONPATH}:/app:/app/dependencies"
 # Change user
 USER microdata
 
-CMD ["/app/dependencies/bin/gunicorn", "--logger-class", "metadata_service.config.gunicorn.CustomLogger", "metadata_service.app:app", "--workers", "2", "--limit-request-line", "8190"]
+CMD ["/app/dependencies/bin/gunicorn", "-k", "uvicorn.workers.UvicornWorker", "--logger-class", "metadata_service.config.gunicorn.CustomLogger", "metadata_service.app:app", "--workers", "2", "--limit-request-line", "8190"]
