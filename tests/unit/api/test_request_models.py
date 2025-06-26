@@ -39,19 +39,7 @@ def test_metadata_query_draft_version():
     assert query.version == "0.0.0.12345"
 
 
-def test_metadata_query_names_as_str():
-    query = MetadataQuery(names="a,b", version="1.0.0.0")
-    assert isinstance(query.names, list)
-
-
-def test_metadata_query_names_as_list():
-    query = MetadataQuery(names=["a", "b"], version="1.0.0.0")
-    assert isinstance(query.names, list)
-
-
 def test_metadata_query_invalid_names():
-    with pytest.raises(RequestValidationException) as e:
-        MetadataQuery(names={"a"}, version="1.0.0.0")
-    assert (
-        "names field must be a list or a string" in e.value.message["message"]
-    )
+    with pytest.raises(ValidationError) as e:
+        MetadataQuery(names={"a": "a"}, version="1.0.0.0")
+    assert "Input should be a valid string" in str(e)
