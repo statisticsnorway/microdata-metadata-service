@@ -1,100 +1,80 @@
 import logging
 
-from flask import Blueprint, jsonify, request
+from fastapi import APIRouter, Depends, Response
 
 from metadata_service.api.request_models import NameParam, MetadataQuery
+from metadata_service.api.response_models import metadata_response
 from metadata_service.domain import metadata
 from metadata_service.domain.version import get_version_from_string
 
 logger = logging.getLogger()
-metadata_api = Blueprint("metadata_api", __name__)
+metadata_router = APIRouter()
 
 
-@metadata_api.get("/metadata/data-store")
-def get_data_store():
+@metadata_router.get("/metadata/data-store")
+def get_data_store(response=Depends(metadata_response)):
     logger.info("GET /metadata/data-store")
-
-    response = jsonify(metadata.find_all_datastore_versions())
-    response.headers.set("content-language", "no")
-    return response
+    return response(metadata.find_all_datastore_versions())
 
 
-@metadata_api.get("/metadata/data-structures/status")
-def get_data_structure_current_status():
-    validated_query = NameParam(**request.args)
+@metadata_router.get("/metadata/data-structures/status")
+def get_data_structure_current_status(validated_query: NameParam = Depends()):
     logger.info(
         f"GET /metadata/data-structures/status with name = {validated_query.names}"
     )
-    response = jsonify(
-        metadata.find_current_data_structure_status(
-            validated_query.get_names_as_list()
-        )
+    return metadata.find_current_data_structure_status(
+        validated_query.get_names_as_list()
     )
-    response.headers.set("content-language", "no")
-    return response
 
 
-@metadata_api.post("/metadata/data-structures/status")
-def get_data_structure_current_status_as_post():
-    validated_body = NameParam(**request.json)
-
+@metadata_router.post("/metadata/data-structures/status")
+def get_data_structure_current_status_as_post(validated_body: NameParam):
     logger.info(
         f"POST /metadata/data-structures/status with name = {validated_body.names}"
     )
-    response = jsonify(
-        metadata.find_current_data_structure_status(
-            validated_body.get_names_as_list()
-        )
+    return metadata.find_current_data_structure_status(
+        validated_body.get_names_as_list()
     )
-    response.headers.set("content-language", "no")
-    return response
 
 
-@metadata_api.get("/metadata/data-structures")
-def get_data_structures():
-    validated_query = MetadataQuery(**request.args)
+@metadata_router.get("/metadata/data-structures")
+def get_data_structures(
+    validated_query: MetadataQuery = Depends(),
+    response=Depends(metadata_response),
+):
     validated_query.include_attributes = True
     logger.info(f"GET /metadata/data-structures with query: {validated_query}")
-
-    response = jsonify(
+    return response(
         metadata.find_data_structures(
-            validated_query.names,
+            validated_query.names_as_list(),
             get_version_from_string(validated_query.version),
             validated_query.include_attributes,
             validated_query.skip_code_lists,
         )
     )
-    response.headers.set("content-language", "no")
-    return response
 
 
-@metadata_api.get("/metadata/all-data-structures")
+@metadata_router.get("/metadata/all-data-structures")
 def get_all_data_structures_ever():
     logger.info("GET /metadata/all-data-structures")
-
-    response = jsonify(metadata.find_all_data_structures_ever())
-    response.headers.set("content-language", "no")
-    return response
+    return metadata.find_all_data_structures_ever()
 
 
-@metadata_api.get("/metadata/all")
-def get_all_metadata():
-    validated_query = MetadataQuery(**request.args)
+@metadata_router.get("/metadata/all")
+def get_all_metadata(
+    validated_query: MetadataQuery = Depends(),
+    respond=Depends(metadata_response),
+):
     logger.info(f"GET /metadata/all with version: {validated_query.version}")
-
-    response = jsonify(
+    return respond(
         metadata.find_all_metadata(
             get_version_from_string(validated_query.version),
             validated_query.skip_code_lists,
         )
     )
-    response.headers.set("content-language", "no")
-    return response
 
 
-@metadata_api.get("/languages")
+@metadata_router.get("/languages")
 def get_languages():
     logger.info("GET /languages")
-
-    response = jsonify(metadata.find_languages())
-    return response
+    return metadata.find_languages()

@@ -1,14 +1,14 @@
-from flask import Blueprint
+from fastapi import APIRouter
 
 
-observability = Blueprint("observability", __name__)
+observability_router = APIRouter()
 
 
-@observability.get("/health/alive")
-def alive():
+@observability_router.get("/health/alive")
+async def alive():
     return "I'm alive!"
 
 
-@observability.get("/health/ready")
-def ready():
+@observability_router.get("/health/ready")
+async def ready():
     return "I'm ready!"
