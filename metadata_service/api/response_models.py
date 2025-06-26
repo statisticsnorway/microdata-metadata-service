@@ -28,4 +28,3 @@ def metadata_response(
         return JSONResponse(content)
 
     return respond
-
