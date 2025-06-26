@@ -1,6 +1,6 @@
 import logging
 
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends
 
 from metadata_service.api.request_models import NameParam, MetadataQuery
 from metadata_service.api.response_models import metadata_response
