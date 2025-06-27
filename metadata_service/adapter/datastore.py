@@ -33,7 +33,7 @@ def _get_draft_metadata_all() -> dict:
         return json.load(f)
 
 
-@lru_cache
+@lru_cache(maxsize=32)
 def _get_versioned_metadata_all(version: Version) -> dict:
     file_version = version.to_3_underscored()
     metadata_all_file_path = (
