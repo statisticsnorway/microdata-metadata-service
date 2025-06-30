@@ -8,7 +8,6 @@ authors = ["Microdata Developers <microdata-dev@ssb.no>"]
 python = "^3.13"
 gunicorn = "^23.0.0"
 pydantic = "^2.10.0"
-msgpack = "^1.0.4"
 fastapi = "^0.115.13"
 uvicorn = "^0.34.3"
 
