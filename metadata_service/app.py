@@ -2,7 +2,7 @@ import logging
 
 from fastapi.responses import JSONResponse
 from fastapi import FastAPI
-
+from starlette.exceptions import HTTPException
 from metadata_service.api.metadata_api import metadata_router
 from metadata_service.api.observability import observability_router
 from metadata_service.config.logging import setup_logging
@@ -30,6 +30,29 @@ async def add_language_header(request, call_next):
     response = await call_next(request)
     response.headers.setdefault("Content-Language", "no")
     return response
+
+
+@app.exception_handler(HTTPException)
+async def custom_http_exception_handler(_req, exc):
+    if exc.status_code == 404:
+        return JSONResponse(
+            content={
+                "code": 103,
+                "message": f"Error: {str(exc)}",
+                "service": "metadata-service",
+                "type": "PATH_NOT_FOUND",
+            },
+            status_code=400,
+        )
+    return JSONResponse(
+        content={
+            "code": 202,
+            "message": f"Error: {str(exc)}",
+            "service": "metadata-service",
+            "type": "SYSTEM_ERROR",
+        },
+        status_code=500,
+    )
 
 
 @app.exception_handler(Exception)
