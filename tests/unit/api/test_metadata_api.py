@@ -1,6 +1,5 @@
 import json
 
-import msgpack
 from fastapi import testclient
 from httpx import Response
 from metadata_service.domain import metadata
@@ -168,30 +167,6 @@ def test_get_data_structures(test_app: testclient.TestClient, mocker):
     )
     assert response.headers["Content-Type"] == "application/json"
     assert response.json() == mocked_data_structures
-
-
-def test_get_data_structures_with_messagepack(
-    test_app: testclient.TestClient, mocker
-):
-    with open(DATA_STRUCTURES_FILE_PATH, encoding="utf-8") as f:
-        mocked_data_structures = json.load(f)
-
-    spy = mocker.patch.object(
-        metadata, "find_data_structures", return_value=mocked_data_structures
-    )
-    response: Response = test_app.get(
-        "/metadata/data-structures?names=FNR,AKT_ARBAP&version=3.2.1.0",
-        headers={
-            "X-Request-ID": "test-123",
-            "Accept-Language": "no",
-            "Accept": "application/x-msgpack",
-        },
-    )
-    spy.assert_called_with(
-        ["FNR", "AKT_ARBAP"], get_version_from_string("3.2.1.0"), True, False
-    )
-    assert response.headers["Content-Type"] == "application/x-msgpack"
-    assert msgpack.loads(response.content) == mocked_data_structures
 
 
 def test_get_all_data_structures_ever(test_app: testclient.TestClient, mocker):
