@@ -25,7 +25,7 @@ def get_datastore_versions() -> dict:
         return json.load(f)
 
 
-def _get_draft_metadata_all():
+def _get_draft_metadata_all() -> dict:
     metadata_all_file_path = (
         f"{DATASTORE_ROOT_DIR}/datastore/metadata_all__DRAFT.json"
     )
@@ -34,7 +34,7 @@ def _get_draft_metadata_all():
 
 
 @lru_cache(maxsize=32)
-def _get_versioned_metadata_all(version: Version):
+def _get_versioned_metadata_all(version: Version) -> dict:
     file_version = version.to_3_underscored()
     metadata_all_file_path = (
         f"{DATASTORE_ROOT_DIR}/datastore/metadata_all__{file_version}.json"
@@ -43,7 +43,7 @@ def _get_versioned_metadata_all(version: Version):
         return json.load(f)
 
 
-def get_metadata_all(version: Version) -> str:
+def get_metadata_all(version: Version) -> dict:
     try:
         if version.is_draft():
             return _get_draft_metadata_all()

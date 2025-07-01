@@ -11,22 +11,10 @@ SEMVER_4_PARTS_REG_EXP = re.compile(
 
 
 class MetadataQuery(BaseModel, extra="forbid", validate_assignment=True):
-    names: List[str] = []
+    names: str | None = None
     version: str
     include_attributes: bool = False
     skip_code_lists: bool = False
-
-    @field_validator("names", mode="before")
-    @classmethod
-    def split_str(cls, names):
-        if isinstance(names, List):
-            return names[0].split(",")
-        elif isinstance(names, str):
-            return names.split(",")
-        else:
-            raise RequestValidationException(
-                "names field must be a list or a string"
-            )
 
     @field_validator("version", mode="before")
     @classmethod
@@ -37,6 +25,9 @@ class MetadataQuery(BaseModel, extra="forbid", validate_assignment=True):
                 "Should consist of 4 parts, e.g. 1.0.0.0"
             )
         return version
+
+    def names_as_list(self) -> List[str]:
+        return [] if self.names is None else self.names.split(",")
 
 
 class NameParam(BaseModel, extra="forbid"):

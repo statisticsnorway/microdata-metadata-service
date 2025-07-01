@@ -1,12 +1,12 @@
 import logging
 
-import msgpack
-from flask import Flask, Response, request, jsonify, make_response
-from werkzeug.exceptions import NotFound, BadHost
-
-from metadata_service.api.metadata_api import metadata_api
-from metadata_service.api.observability import observability
+from fastapi.responses import JSONResponse
+from fastapi import FastAPI
+from starlette.exceptions import HTTPException
+from metadata_service.api.metadata_api import metadata_router
+from metadata_service.api.observability import observability_router
 from metadata_service.config.logging import setup_logging
+from metadata_service.config.uvicorn import setup_uvicorn_logging
 from metadata_service.exceptions.exceptions import (
     DataNotFoundException,
     InvalidStorageFormatException,
@@ -17,99 +17,83 @@ from metadata_service.exceptions.exceptions import (
 
 logger = logging.getLogger()
 
-app = Flask(__name__)
-app.register_blueprint(observability)
-app.register_blueprint(metadata_api)
+app = FastAPI()
+app.include_router(observability_router)
+app.include_router(metadata_router)
 
 setup_logging(app)
+setup_uvicorn_logging()
 
 
-@app.after_request
-def after_request(response: Response):
-    if (
-        "Accept" in request.headers
-        and request.headers["Accept"] == "application/x-msgpack"
-    ):
-        # create a new Response to send the payload only as "data" field
-        response_msgpack = make_response(msgpack.dumps(response.json))
-        response_msgpack.headers.set("Content-Type", "application/x-msgpack")
-        return response_msgpack
-
+@app.middleware("http")
+async def add_language_header(request, call_next):
+    response = await call_next(request)
+    response.headers.setdefault("Content-Language", "no")
     return response
 
 
-@app.errorhandler(Exception)
-def handle_generic_exception(exc):
-    logger.exception(exc)
-    return (
-        jsonify(
-            {
-                "code": 202,
-                "message": f"Error: {str(exc)}",
-                "service": "metadata-service",
-                "type": "SYSTEM_ERROR",
-            }
-        ),
-        500,
-    )
-
-
-@app.errorhandler(NotFound)
-def handle_url_invalid(exc):
-    logger.warning(exc, exc_info=True)
-    return (
-        jsonify(
-            {
+@app.exception_handler(HTTPException)
+async def custom_http_exception_handler(_req, exc):
+    if exc.status_code == 404:
+        return JSONResponse(
+            content={
                 "code": 103,
                 "message": f"Error: {str(exc)}",
                 "service": "metadata-service",
                 "type": "PATH_NOT_FOUND",
-            }
-        ),
-        400,
+            },
+            status_code=400,
+        )
+    return JSONResponse(
+        content={
+            "code": 202,
+            "message": f"Error: {str(exc)}",
+            "service": "metadata-service",
+            "type": "SYSTEM_ERROR",
+        },
+        status_code=500,
     )
 
 
-@app.errorhandler(BadHost)
-def handle_bad_host(exc):
-    logger.warning(exc, exc_info=True)
-    return (
-        jsonify(
-            {
-                "code": 103,
-                "message": f"Error: {str(exc)}",
-                "service": "metadata-service",
-                "type": "PATH_NOT_FOUND",
-            }
-        ),
-        400,
-    )
-
-
-@app.errorhandler(DataNotFoundException)
-def handle_data_not_found(exc):
-    logger.warning(exc, exc_info=True)
-    return jsonify(exc.to_dict()), 404
-
-
-@app.errorhandler(InvalidDraftVersionException)
-def handle_invalid_draft(exc):
-    logger.warning(exc, exc_info=True)
-    return str(exc), 404
-
-
-@app.errorhandler(RequestValidationException)
-def handle_invalid_request(exc):
-    logger.warning(exc, exc_info=True)
-    return jsonify(exc.to_dict()), 400
-
-
-@app.errorhandler(InvalidStorageFormatException)
-def handle_invalid_format(exc):
+@app.exception_handler(Exception)
+def handle_generic_exception(_req, exc):
     logger.exception(exc)
-    return jsonify(exc.to_dict()), 500
+    return JSONResponse(
+        content={
+            "code": 202,
+            "message": f"Error: {str(exc)}",
+            "service": "metadata-service",
+            "type": "SYSTEM_ERROR",
+        },
+        status_code=500,
+    )
 
 
-# this is needed to run the application in IDE
+@app.exception_handler(DataNotFoundException)
+def handle_data_not_found(_req, exc):
+    logger.warning(exc, exc_info=True)
+    return JSONResponse(content=exc.to_dict(), status_code=404)
+
+
+@app.exception_handler(InvalidDraftVersionException)
+def handle_invalid_draft(_req, exc):
+    logger.warning(exc, exc_info=True)
+    return JSONResponse(content={"message": str(exc)}, status_code=404)
+
+
+@app.exception_handler(RequestValidationException)
+def handle_invalid_request(_req, exc):
+    logger.warning(exc, exc_info=True)
+    return JSONResponse(content=exc.to_dict(), status_code=400)
+
+
+@app.exception_handler(InvalidStorageFormatException)
+def handle_invalid_format(_req, exc):
+    logger.exception(exc)
+    return JSONResponse(content=exc.to_dict(), status_code=500)
+
+
 if __name__ == "__main__":
-    app.run(port=8000, host="0.0.0.0")
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)
