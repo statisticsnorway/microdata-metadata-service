@@ -1,3 +1,5 @@
+This repository has been archived. Microdata-metadata-service is now part of [microdata-datastore-api](https://github.com/statisticsnorway/microdata-datastore-api).
+
 # microdata-metadata-service
 Metadata service for microdata.no.
 
